@@ -1,0 +1,73 @@
+name: build
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch: {}
+  pull_request:
+    paths: ['**.go', 'go.mod', 'go.sum', '.github/workflows/build.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Android ABIs ship as static Linux binaries (like rclone/restic do).
+          - { goos: linux,   goarch: arm64, goarm: '',  name: linux-arm64,   abi: arm64-v8a,   upx: true  }
+          - { goos: linux,   goarch: arm,   goarm: '7', name: linux-armv7,   abi: armeabi-v7a, upx: true  }
+          - { goos: linux,   goarch: amd64, goarm: '',  name: linux-amd64,   abi: x86_64,      upx: true  }
+          - { goos: linux,   goarch: '386', goarm: '',  name: linux-386,     abi: x86,         upx: true  }
+          # Desktop: shipped unpacked (UPX on mach-o/pe is more fragile).
+          - { goos: darwin,  goarch: amd64, goarm: '',  name: darwin-amd64,  abi: '',          upx: false }
+          - { goos: darwin,  goarch: arm64, goarm: '',  name: darwin-arm64,  abi: '',          upx: false }
+          - { goos: windows, goarch: amd64, goarm: '',  name: windows-amd64, abi: '',          upx: false }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+          check-latest: true
+
+      - name: Build (static, stripped)
+        env:
+          CGO_ENABLED: '0'
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          GOARM: ${{ matrix.goarm }}
+        run: |
+          out="mtproto-store-${{ matrix.name }}"
+          [ "${{ matrix.goos }}" = "windows" ] && out="$out.exe"
+          go build -trimpath -ldflags="-s -w" -o "$out" .
+          echo "OUT=$out" >> "$GITHUB_ENV"
+          ls -la "$out"
+
+      - name: Compress (UPX)
+        if: matrix.upx
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq upx-ucl
+          upx -q --best --lzma "${{ env.OUT }}"
+          ls -la "${{ env.OUT }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mtproto-store-${{ matrix.name }}
+          path: ${{ env.OUT }}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { path: dist, merge-multiple: true }
+      - run: ls -la dist
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true

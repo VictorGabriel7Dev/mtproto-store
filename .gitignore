@@ -1,0 +1,15 @@
+# build output
+/mtproto-store
+/mtproto-store-*
+/dist/
+*.exe
+
+# Go
+/vendor/
+
+# local project guide, never published
+/CLAUDE.md
+
+# editor / OS
+.DS_Store
+*.swp
