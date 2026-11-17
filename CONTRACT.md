@@ -24,9 +24,12 @@ Completes login with the received code (and 2FA password if the account has one)
 - **Errors:** `ERR_INVALID_ARGS`, `2FA_REQUIRED` (the account has 2FA; re-run with `--password`), `ERR_SIGN_IN`, `ERR_CLIENT`
 
 ### `check-auth` (alias `status`)
-Reports whether a usable session exists.
-- **Success:** `{ "ok": true, "user": {…}|null, "channel": {…}|null }`
+Reports whether a usable, authenticated session exists. **The authentication gate is the `is_auth` boolean, not the presence of `user`.**
+- **Not authenticated:** `{ "ok": true, "is_auth": false }` (no `user` / `channel` fields)
+- **Authenticated:** `{ "ok": true, "is_auth": true, "user": { "id": <int>, "first_name": "…", "username": "…", "phone": "…" }, "channel": { "id": "-100…", "title": "…" } | null }`
 - **Errors:** `ERR_CLIENT`
+
+> The `user` object is `{ id, first_name, username, phone }` wherever it appears (here and in `sign-in`). Only `check-auth` carries `is_auth`; a successful `sign-in` implies authentication.
 
 ### `init-storage [--title <title>]`
 Creates or reuses the private storage channel. If `--title` is omitted a randomized name ending in the storage tag is generated; an existing tagged channel is reused instead of creating a duplicate.
