@@ -2,6 +2,12 @@
 
 All notable changes to mtproto-store are documented here.
 
+## v1.1.1
+
+Maintenance release. No functional change to the CLI; the binary is unchanged from v1.1.0.
+
+- **CI conformance guard:** a new `check` job (`gofmt` + `go vet` + `scripts/check-sync.py`) runs on every push and pull request. The guard fails the build if the documented commands or error codes drift from the binary, if upstream branding leaks into a tracked file, or if a translated README drops a command row - a durable fix for documentation drifting out of sync with the code.
+
 ## v1.1.0
 
 - **New `delete` verb:** `delete --ref <message_id>[,<id>...]` removes one or more stored items (comma-separated for a batch), completing the CRUD cycle. JSON: `{ok, deleted:[...]}`.
