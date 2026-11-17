@@ -2,6 +2,10 @@
 
 All notable changes to mtproto-store are documented here.
 
+## v1.0.0
+
+First stable release. The full flow is validated end-to-end against live Telegram: login (phone, code, 2FA password), storage-channel creation, chunked upload, listing, and download, with a byte-exact round-trip and the Telegram Desktop emulation confirmed. Documentation corrected (`upload` takes `--dir`; `2FA_REQUIRED` is documented). No breaking changes from v0.1.0.
+
 ## v0.1.0
 
 Initial release.
