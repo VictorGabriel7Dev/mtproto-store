@@ -51,7 +51,7 @@ Setiap perintah mencetak satu objek JSON ke stdout (`"ok": true | false`).
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Selesaikan login |
 | `check-auth` (alias `status`) | Laporkan status autentikasi |
 | `init-storage [--title <title>]` | Buat atau gunakan kembali kanal penyimpanan privat |
-| `upload --file <path> [flags]` | Unggah berkas sebagai potongan |
+| `upload --dir <path> [flags]` | Unggah berkas sebagai potongan |
 | `download [flags]` | Unduh arsip tersimpan |
 | `list-remote` (alias `list-backups`) | Tampilkan daftar item tersimpan |
 | `logout` | Lepaskan sesi lokal |

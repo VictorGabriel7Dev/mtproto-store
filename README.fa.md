@@ -51,7 +51,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | تکمیل ورود |
 | `check-auth` (نام مستعار `status`) | گزارش وضعیت احراز هویت |
 | `init-storage [--title <title>]` | ساخت یا استفادهٔ دوباره از کانال ذخیره‌سازی خصوصی |
-| `upload --file <path> [flags]` | آپلود یک فایل به صورت تکه‌تکه |
+| `upload --dir <path> [flags]` | آپلود یک فایل به صورت تکه‌تکه |
 | `download [flags]` | دانلود یک آرشیو ذخیره‌شده |
 | `list-remote` (نام مستعار `list-backups`) | فهرست‌کردن موارد ذخیره‌شده |
 | `logout` | کنارگذاشتن نشست محلی |

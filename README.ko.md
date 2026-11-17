@@ -51,7 +51,7 @@ MTProto 스택(`gotd/td` 에 Telegram Desktop 을 흉내 내는 TLS 위장 리�
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | 로그인을 완료한다 |
 | `check-auth`(별칭 `status`) | 인증 상태를 보고한다 |
 | `init-storage [--title <title>]` | 비공개 스토리지 채널을 생성하거나 재사용한다 |
-| `upload --file <path> [flags]` | 파일을 청크로 업로드한다 |
+| `upload --dir <path> [flags]` | 파일을 청크로 업로드한다 |
 | `download [flags]` | 저장된 아카이브를 다운로드한다 |
 | `list-remote`(별칭 `list-backups`) | 저장된 항목을 나열한다 |
 | `logout` | 로컬 세션을 폐기한다 |

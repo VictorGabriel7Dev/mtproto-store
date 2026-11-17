@@ -51,7 +51,7 @@ Každý příkaz vytiskne jediný objekt JSON na stdout (`"ok": true | false`).
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Dokončit přihlášení |
 | `check-auth` (alias `status`) | Nahlásit stav ověření |
 | `init-storage [--title <title>]` | Vytvořit nebo znovu použít soukromý kanál úložiště |
-| `upload --file <path> [flags]` | Nahrát soubor po částech |
+| `upload --dir <path> [flags]` | Nahrát soubor po částech |
 | `download [flags]` | Stáhnout uložený archiv |
 | `list-remote` (alias `list-backups`) | Vypsat uložené položky |
 | `logout` | Zrušit místní relaci |

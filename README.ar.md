@@ -51,7 +51,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | إكمال تسجيل الدخول |
 | `check-auth` (الاسم البديل `status`) | الإبلاغ عن حالة المصادقة |
 | `init-storage [--title <title>]` | إنشاء قناة التخزين الخاصة أو إعادة استخدامها |
-| `upload --file <path> [flags]` | رفع ملف على هيئة أجزاء |
+| `upload --dir <path> [flags]` | رفع ملف على هيئة أجزاء |
 | `download [flags]` | تنزيل أرشيف مخزَّن |
 | `list-remote` (الاسم البديل `list-backups`) | سرد العناصر المخزَّنة |
 | `logout` | إسقاط الجلسة المحلية |

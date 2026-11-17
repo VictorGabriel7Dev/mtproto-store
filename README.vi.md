@@ -51,7 +51,7 @@ Mỗi lệnh in ra một đối tượng JSON duy nhất ra stdout (`"ok": true 
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Hoàn tất đăng nhập |
 | `check-auth` (alias `status`) | Báo cáo trạng thái xác thực |
 | `init-storage [--title <title>]` | Tạo hoặc tái sử dụng kênh lưu trữ riêng tư |
-| `upload --file <path> [flags]` | Tải lên một tệp theo khối |
+| `upload --dir <path> [flags]` | Tải lên một tệp theo khối |
 | `download [flags]` | Tải xuống một kho lưu trữ đã lưu |
 | `list-remote` (alias `list-backups`) | Liệt kê các mục đã lưu |
 | `logout` | Hủy phiên cục bộ |

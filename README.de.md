@@ -51,7 +51,7 @@ Jeder Befehl gibt ein einzelnes JSON-Objekt auf stdout aus (`"ok": true | false`
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Schließt die Anmeldung ab |
 | `check-auth` (alias `status`) | Meldet den Authentifizierungsstatus |
 | `init-storage [--title <title>]` | Erstellt oder verwendet den privaten Speicherkanal erneut |
-| `upload --file <path> [flags]` | Lädt eine Datei in Fragmenten hoch |
+| `upload --dir <path> [flags]` | Lädt eine Datei in Fragmenten hoch |
 | `download [flags]` | Lädt ein gespeichertes Archiv herunter |
 | `list-remote` (alias `list-backups`) | Listet gespeicherte Elemente auf |
 | `logout` | Verwirft die lokale Sitzung |

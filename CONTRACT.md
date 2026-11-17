@@ -21,7 +21,7 @@ Begins login; Telegram sends the login code to the account. Writes short-lived s
 ### `sign-in --phone <number> --code <code> [--password <2fa>]`
 Completes login with the received code (and 2FA password if the account has one).
 - **Success:** `{ "ok": true, "user": {…}, "channel": {…}|null }`
-- **Errors:** `ERR_INVALID_ARGS`, `ERR_SIGN_IN`, `ERR_CLIENT`
+- **Errors:** `ERR_INVALID_ARGS`, `2FA_REQUIRED` (the account has 2FA; re-run with `--password`), `ERR_SIGN_IN`, `ERR_CLIENT`
 
 ### `check-auth` (alias `status`)
 Reports whether a usable session exists.
@@ -34,8 +34,8 @@ Creates or reuses the private storage channel. If `--title` is omitted a randomi
 - **Success (created):** `{ "ok": true, "channel": { "id": "-100…", "title": "…" }, "created": true }`
 - **Errors:** `ERR_NOT_AUTH`, `ERR_INIT_STORAGE`, `ERR_CLIENT`
 
-### `upload --file <path> [--dest telegram] [--dir <subdir>] [--opid <id>]`
-Uploads one or more files as chunked documents into the storage channel. `--opid`, if given, makes the command write progress to `logs/progress-<opid>.json` (percent/phase), so a host can poll a long transfer.
+### `upload --dir <path> [--dest telegram] [--opid <id>]`
+Uploads every file in the directory `<path>` as chunked documents into the storage channel. `--opid`, if given, makes the command write progress to `logs/progress-<opid>.json` (percent/phase), so a host can poll a long transfer.
 - **Success:** `{ "ok": true, "uploaded": [ { "name": "<file>", "size": <bytes>, "message_id": <int> }, … ] }`
 - **Errors:** `ERR_NO_FILES`, `ERR_NOT_AUTH`, `ERR_UPLOAD`, `ERR_CLIENT`
 
@@ -65,7 +65,8 @@ Drops the local session.
 | `ERR_NO_FILES` | Upload found nothing to send |
 | `ERR_NOT_AUTH` | No authenticated session (run `send-code` + `sign-in`) |
 | `ERR_SEND_CODE` | Telegram rejected the login-code request |
-| `ERR_SIGN_IN` | Sign-in failed (wrong code, 2FA, etc.) |
+| `ERR_SIGN_IN` | Sign-in failed (wrong or expired code) |
+| `2FA_REQUIRED` | The account has two-factor auth; re-run `sign-in` with `--password` |
 | `ERR_INIT_STORAGE` | Could not create or resolve the storage channel |
 | `ERR_UPLOAD` | Upload failed mid-transfer |
 | `ERR_DOWNLOAD` | Download failed |

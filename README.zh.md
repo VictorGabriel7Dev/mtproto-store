@@ -51,7 +51,7 @@ MTProto 栈（`gotd/td` 加上一个模拟 Telegram Desktop 的 TLS 伪装解析
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | 完成登录 |
 | `check-auth`（别名 `status`） | 报告认证状态 |
 | `init-storage [--title <title>]` | 创建或复用私有存储频道 |
-| `upload --file <path> [flags]` | 以分块方式上传文件 |
+| `upload --dir <path> [flags]` | 以分块方式上传文件 |
 | `download [flags]` | 下载已存储的归档 |
 | `list-remote`（别名 `list-backups`） | 列出已存储的项目 |
 | `logout` | 丢弃本地会话 |

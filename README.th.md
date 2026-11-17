@@ -51,7 +51,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | ทำการเข้าสู่ระบบให้เสร็จสมบูรณ์ |
 | `check-auth` (alias `status`) | รายงานสถานะการยืนยันตัวตน |
 | `init-storage [--title <title>]` | สร้างหรือใช้ซ้ำแชนเนลจัดเก็บส่วนตัว |
-| `upload --file <path> [flags]` | อัปโหลดไฟล์เป็นชิ้น ๆ |
+| `upload --dir <path> [flags]` | อัปโหลดไฟล์เป็นชิ้น ๆ |
 | `download [flags]` | ดาวน์โหลดอาร์ไคฟ์ที่จัดเก็บไว้ |
 | `list-remote` (alias `list-backups`) | แสดงรายการที่จัดเก็บไว้ |
 | `logout` | ยกเลิกเซสชันในเครื่อง |

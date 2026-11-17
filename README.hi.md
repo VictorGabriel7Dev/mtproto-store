@@ -51,7 +51,7 @@ MTProto स्टैक (`gotd/td` के साथ एक TLS-छद्मा�
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | लॉगिन पूरा करें |
 | `check-auth` (उपनाम `status`) | प्रमाणीकरण स्थिति की रिपोर्ट करें |
 | `init-storage [--title <title>]` | निजी स्टोरेज चैनल बनाएँ या पुनः उपयोग करें |
-| `upload --file <path> [flags]` | किसी फ़ाइल को खंडों के रूप में अपलोड करें |
+| `upload --dir <path> [flags]` | किसी फ़ाइल को खंडों के रूप में अपलोड करें |
 | `download [flags]` | संग्रहीत आर्काइव डाउनलोड करें |
 | `list-remote` (उपनाम `list-backups`) | संग्रहीत वस्तुओं की सूची बनाएँ |
 | `logout` | स्थानीय सत्र को हटाएँ |

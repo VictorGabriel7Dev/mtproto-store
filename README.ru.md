@@ -51,7 +51,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Завершить вход |
 | `check-auth` (alias `status`) | Сообщить состояние аутентификации |
 | `init-storage [--title <title>]` | Создать или повторно использовать приватный канал хранилища |
-| `upload --file <path> [flags]` | Загрузить файл по частям |
+| `upload --dir <path> [flags]` | Загрузить файл по частям |
 | `download [flags]` | Скачать сохранённый архив |
 | `list-remote` (alias `list-backups`) | Вывести список сохранённых элементов |
 | `logout` | Удалить локальную сессию |
