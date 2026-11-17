@@ -51,7 +51,7 @@ Her komut, stdout'a tek bir JSON nesnesi yazar (`"ok": true | false`).
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Girişi tamamla |
 | `check-auth` (alias `status`) | Kimlik doğrulama durumunu bildir |
 | `init-storage [--title <title>]` | Özel depolama kanalını oluştur veya yeniden kullan |
-| `upload --dir <path> [flags]` | Bir dosyayı parçalar hâlinde yükle |
+| `upload --dir <path> [flags]` | Bir dizindeki dosyaları parçalar hâlinde yükler |
 | `download [flags]` | Depolanan bir arşivi indir |
 | `list-remote` (alias `list-backups`) | Depolanan öğeleri listele |
 | `logout` | Yerel oturumu bırak |

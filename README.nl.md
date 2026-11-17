@@ -51,7 +51,7 @@ Elk commando drukt één JSON-object af op stdout (`"ok": true | false`).
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Voltooi het inloggen |
 | `check-auth` (alias `status`) | Rapporteer de authenticatiestatus |
 | `init-storage [--title <title>]` | Maak of hergebruik het privé-opslagkanaal |
-| `upload --dir <path> [flags]` | Upload een bestand in stukken |
+| `upload --dir <path> [flags]` | Uploadt de bestanden in een map in delen |
 | `download [flags]` | Download een opgeslagen archief |
 | `list-remote` (alias `list-backups`) | Toon een lijst van opgeslagen items |
 | `logout` | Verwijder de lokale sessie |

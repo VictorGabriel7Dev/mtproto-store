@@ -51,7 +51,7 @@ MTProto スタック（`gotd/td` に、Telegram Desktop を模倣する TLS カ�
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | ログインを完了する |
 | `check-auth`（エイリアス `status`） | 認証状態を報告する |
 | `init-storage [--title <title>]` | プライベートストレージチャンネルを作成または再利用する |
-| `upload --dir <path> [flags]` | ファイルをチャンクとしてアップロードする |
+| `upload --dir <path> [flags]` | ディレクトリ内のファイルをチャンクに分けてアップロード |
 | `download [flags]` | 保存済みのアーカイブをダウンロードする |
 | `list-remote`（エイリアス `list-backups`） | 保存済みの項目を一覧表示する |
 | `logout` | ローカルセッションを破棄する |

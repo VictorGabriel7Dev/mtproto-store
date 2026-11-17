@@ -51,7 +51,7 @@ Każde polecenie wypisuje pojedynczy obiekt JSON na stdout (`"ok": true | false`
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Dokończ logowanie |
 | `check-auth` (alias `status`) | Zgłoś stan uwierzytelnienia |
 | `init-storage [--title <title>]` | Utwórz lub ponownie wykorzystaj prywatny kanał magazynu |
-| `upload --dir <path> [flags]` | Prześlij plik w częściach |
+| `upload --dir <path> [flags]` | Przesyła pliki z katalogu we fragmentach |
 | `download [flags]` | Pobierz przechowywane archiwum |
 | `list-remote` (alias `list-backups`) | Wyświetl listę przechowywanych elementów |
 | `logout` | Usuń lokalną sesję |

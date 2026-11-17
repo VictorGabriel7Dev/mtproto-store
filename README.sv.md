@@ -51,7 +51,7 @@ Varje kommando skriver ut ett enda JSON-objekt till stdout (`"ok": true | false`
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Slutför inloggning |
 | `check-auth` (alias `status`) | Rapportera autentiseringstillstånd |
 | `init-storage [--title <title>]` | Skapa eller återanvänd den privata lagringskanalen |
-| `upload --dir <path> [flags]` | Ladda upp en fil i delar |
+| `upload --dir <path> [flags]` | Laddar upp filerna i en katalog i delar |
 | `download [flags]` | Ladda ner ett lagrat arkiv |
 | `list-remote` (alias `list-backups`) | Lista lagrade objekt |
 | `logout` | Släpp den lokala sessionen |

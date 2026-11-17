@@ -51,7 +51,7 @@ Every command prints a single JSON object to stdout (`"ok": true | false`).
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Complete login |
 | `check-auth` (alias `status`) | Report authentication state |
 | `init-storage [--title <title>]` | Create or reuse the private storage channel |
-| `upload --dir <path> [flags]` | Upload a file as chunks |
+| `upload --dir <path> [flags]` | Upload the files in a directory as chunks |
 | `download [flags]` | Download a stored archive |
 | `list-remote` (alias `list-backups`) | List stored items |
 | `logout` | Drop the local session |

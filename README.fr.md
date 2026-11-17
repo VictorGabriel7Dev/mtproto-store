@@ -51,7 +51,7 @@ Chaque commande affiche un seul objet JSON sur stdout (`"ok": true | false`).
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Termine la connexion |
 | `check-auth` (alias `status`) | Indique l'état d'authentification |
 | `init-storage [--title <title>]` | Crée ou réutilise le canal de stockage privé |
-| `upload --dir <path> [flags]` | Téléverse un fichier par fragments |
+| `upload --dir <path> [flags]` | Téléverse les fichiers d'un répertoire en fragments |
 | `download [flags]` | Télécharge une archive stockée |
 | `list-remote` (alias `list-backups`) | Liste les éléments stockés |
 | `logout` | Supprime la session locale |

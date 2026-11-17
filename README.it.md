@@ -51,7 +51,7 @@ Ogni comando stampa un singolo oggetto JSON su stdout (`"ok": true | false`).
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Completa l'accesso |
 | `check-auth` (alias `status`) | Riporta lo stato di autenticazione |
 | `init-storage [--title <title>]` | Crea o riutilizza il canale di archiviazione privato |
-| `upload --dir <path> [flags]` | Carica un file in frammenti |
+| `upload --dir <path> [flags]` | Carica i file di una directory a blocchi |
 | `download [flags]` | Scarica un archivio memorizzato |
 | `list-remote` (alias `list-backups`) | Elenca gli elementi archiviati |
 | `logout` | Elimina la sessione locale |
