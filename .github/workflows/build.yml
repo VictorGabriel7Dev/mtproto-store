@@ -24,16 +24,32 @@ name: build
 
 on:
   push:
+    branches: [master]
     tags: ['v*']
   workflow_dispatch: {}
-  pull_request:
-    paths: ['**.go', 'go.mod', 'go.sum', '.github/workflows/build.yml']
+  pull_request: {}
 
 permissions:
   contents: write
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+      - name: gofmt
+        run: test -z "$(gofmt -l .)" || { echo 'needs gofmt:'; gofmt -l .; exit 1; }
+      - name: go vet
+        run: go vet ./...
+      - name: contract + branding guard
+        run: python3 scripts/check-sync.py
+
   build:
+    # the check job runs on every push; the build matrix only on tags, PRs and manual runs
+    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
