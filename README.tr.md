@@ -49,10 +49,12 @@ Her komut, stdout'a tek bir JSON nesnesi yazar (`"ok": true | false`).
 |---|---|
 | `send-code --phone <number>` | Girişi başlat; Telegram giriş kodunu gönderir |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Girişi tamamla |
+| `bot-login --token <token>` | Bot olarak oturum aç (sınırlı) |
 | `check-auth` (alias `status`) | Kimlik doğrulama durumunu bildir |
-| `init-storage [--title <title>]` | Özel depolama kanalını oluştur veya yeniden kullan |
+| `init-storage [--title <title>] [--channel-id <id>]` | Özel depolama kanalını oluştur veya yeniden kullan |
 | `upload --dir <path> [flags]` | Bir dizindeki dosyaları parçalar hâlinde yükler |
 | `download [flags]` | Depolanan bir arşivi indir |
+| `delete --ref <id>[,<id>...]` | Bir veya daha fazla depolanan öğeyi siler |
 | `list-remote` (alias `list-backups`) | Depolanan öğeleri listele |
 | `logout` | Yerel oturumu bırak |
 

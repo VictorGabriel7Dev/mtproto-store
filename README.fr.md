@@ -49,10 +49,12 @@ Chaque commande affiche un seul objet JSON sur stdout (`"ok": true | false`).
 |---|---|
 | `send-code --phone <number>` | Démarre la connexion ; Telegram envoie le code de connexion |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Termine la connexion |
+| `bot-login --token <token>` | Se connecter en tant que bot (limité) |
 | `check-auth` (alias `status`) | Indique l'état d'authentification |
-| `init-storage [--title <title>]` | Crée ou réutilise le canal de stockage privé |
+| `init-storage [--title <title>] [--channel-id <id>]` | Crée ou réutilise le canal de stockage privé |
 | `upload --dir <path> [flags]` | Téléverse les fichiers d'un répertoire en fragments |
 | `download [flags]` | Télécharge une archive stockée |
+| `delete --ref <id>[,<id>...]` | Supprime un ou plusieurs éléments stockés |
 | `list-remote` (alias `list-backups`) | Liste les éléments stockés |
 | `logout` | Supprime la session locale |
 

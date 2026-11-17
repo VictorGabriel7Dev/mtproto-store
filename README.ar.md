@@ -49,10 +49,12 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 |---|---|
 | `send-code --phone <number>` | بدء تسجيل الدخول؛ يرسل Telegram رمز الدخول |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | إكمال تسجيل الدخول |
+| `bot-login --token <token>` | تسجيل الدخول كبوت (محدود) |
 | `check-auth` (الاسم البديل `status`) | الإبلاغ عن حالة المصادقة |
-| `init-storage [--title <title>]` | إنشاء قناة التخزين الخاصة أو إعادة استخدامها |
+| `init-storage [--title <title>] [--channel-id <id>]` | إنشاء قناة التخزين الخاصة أو إعادة استخدامها |
 | `upload --dir <path> [flags]` | يرفع ملفات مجلد على شكل أجزاء |
 | `download [flags]` | تنزيل أرشيف مخزَّن |
+| `delete --ref <id>[,<id>...]` | يحذف عنصرًا أو أكثر من العناصر المخزنة |
 | `list-remote` (الاسم البديل `list-backups`) | سرد العناصر المخزَّنة |
 | `logout` | إسقاط الجلسة المحلية |
 

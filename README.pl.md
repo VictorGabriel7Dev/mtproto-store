@@ -49,10 +49,12 @@ Każde polecenie wypisuje pojedynczy obiekt JSON na stdout (`"ok": true | false`
 |---|---|
 | `send-code --phone <number>` | Rozpocznij logowanie; Telegram wysyła kod logowania |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Dokończ logowanie |
+| `bot-login --token <token>` | Zaloguj jako bot (ograniczone) |
 | `check-auth` (alias `status`) | Zgłoś stan uwierzytelnienia |
-| `init-storage [--title <title>]` | Utwórz lub ponownie wykorzystaj prywatny kanał magazynu |
+| `init-storage [--title <title>] [--channel-id <id>]` | Utwórz lub ponownie wykorzystaj prywatny kanał magazynu |
 | `upload --dir <path> [flags]` | Przesyła pliki z katalogu we fragmentach |
 | `download [flags]` | Pobierz przechowywane archiwum |
+| `delete --ref <id>[,<id>...]` | Usuwa jeden lub więcej zapisanych elementów |
 | `list-remote` (alias `list-backups`) | Wyświetl listę przechowywanych elementów |
 | `logout` | Usuń lokalną sesję |
 

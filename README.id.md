@@ -49,10 +49,12 @@ Setiap perintah mencetak satu objek JSON ke stdout (`"ok": true | false`).
 |---|---|
 | `send-code --phone <number>` | Mulai login; Telegram mengirim kode login |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Selesaikan login |
+| `bot-login --token <token>` | Masuk sebagai bot (terbatas) |
 | `check-auth` (alias `status`) | Laporkan status autentikasi |
-| `init-storage [--title <title>]` | Buat atau gunakan kembali kanal penyimpanan privat |
+| `init-storage [--title <title>] [--channel-id <id>]` | Buat atau gunakan kembali kanal penyimpanan privat |
 | `upload --dir <path> [flags]` | Mengunggah berkas dalam direktori sebagai potongan |
 | `download [flags]` | Unduh arsip tersimpan |
+| `delete --ref <id>[,<id>...]` | Menghapus satu atau beberapa item tersimpan |
 | `list-remote` (alias `list-backups`) | Tampilkan daftar item tersimpan |
 | `logout` | Lepaskan sesi lokal |
 

@@ -49,10 +49,12 @@ Každý příkaz vytiskne jediný objekt JSON na stdout (`"ok": true | false`).
 |---|---|
 | `send-code --phone <number>` | Zahájit přihlášení; Telegram odešle přihlašovací kód |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Dokončit přihlášení |
+| `bot-login --token <token>` | Přihlásit jako bot (omezené) |
 | `check-auth` (alias `status`) | Nahlásit stav ověření |
-| `init-storage [--title <title>]` | Vytvořit nebo znovu použít soukromý kanál úložiště |
+| `init-storage [--title <title>] [--channel-id <id>]` | Vytvořit nebo znovu použít soukromý kanál úložiště |
 | `upload --dir <path> [flags]` | Nahraje soubory z adresáře po částech |
 | `download [flags]` | Stáhnout uložený archiv |
+| `delete --ref <id>[,<id>...]` | Smaže jednu nebo více uložených položek |
 | `list-remote` (alias `list-backups`) | Vypsat uložené položky |
 | `logout` | Zrušit místní relaci |
 

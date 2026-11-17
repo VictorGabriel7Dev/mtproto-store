@@ -49,10 +49,12 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 |---|---|
 | `send-code --phone <number>` | Начать вход; Telegram отправляет код входа |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Завершить вход |
+| `bot-login --token <token>` | Вход как бот (ограниченно) |
 | `check-auth` (alias `status`) | Сообщить состояние аутентификации |
-| `init-storage [--title <title>]` | Создать или повторно использовать приватный канал хранилища |
+| `init-storage [--title <title>] [--channel-id <id>]` | Создать или повторно использовать приватный канал хранилища |
 | `upload --dir <path> [flags]` | Загружает файлы из каталога по частям |
 | `download [flags]` | Скачать сохранённый архив |
+| `delete --ref <id>[,<id>...]` | Удаляет один или несколько сохранённых элементов |
 | `list-remote` (alias `list-backups`) | Вывести список сохранённых элементов |
 | `logout` | Удалить локальную сессию |
 

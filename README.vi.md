@@ -49,10 +49,12 @@ Mỗi lệnh in ra một đối tượng JSON duy nhất ra stdout (`"ok": true 
 |---|---|
 | `send-code --phone <number>` | Bắt đầu đăng nhập; Telegram gửi mã đăng nhập |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Hoàn tất đăng nhập |
+| `bot-login --token <token>` | Đăng nhập dưới dạng bot (hạn chế) |
 | `check-auth` (alias `status`) | Báo cáo trạng thái xác thực |
-| `init-storage [--title <title>]` | Tạo hoặc tái sử dụng kênh lưu trữ riêng tư |
+| `init-storage [--title <title>] [--channel-id <id>]` | Tạo hoặc tái sử dụng kênh lưu trữ riêng tư |
 | `upload --dir <path> [flags]` | Tải lên các tệp trong một thư mục theo từng phần |
 | `download [flags]` | Tải xuống một kho lưu trữ đã lưu |
+| `delete --ref <id>[,<id>...]` | Xóa một hoặc nhiều mục đã lưu |
 | `list-remote` (alias `list-backups`) | Liệt kê các mục đã lưu |
 | `logout` | Hủy phiên cục bộ |
 

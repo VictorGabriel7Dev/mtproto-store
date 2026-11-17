@@ -23,6 +23,11 @@ Completes login with the received code (and 2FA password if the account has one)
 - **Success:** `{ "ok": true, "user": {…}, "channel": {…}|null }`
 - **Errors:** `ERR_INVALID_ARGS`, `2FA_REQUIRED` (the account has 2FA; re-run with `--password`), `ERR_SIGN_IN`, `ERR_CLIENT`
 
+### `bot-login --token <bot_token>`
+Authenticates as a **bot** instead of a user account. **Limited mode:** a bot cannot create or discover channels and cannot read history, so bot mode only works against a channel that a user account already set up (saved in the destination config) and to which the bot has been added as an admin. `upload`, `download` and `delete` then work; `list-remote` and channel creation do not, and file-size limits are stricter than a user account.
+- **Success:** `{ "ok": true, "is_auth": true, "bot": true, "user": { "id": <int>, "first_name": "…", "username": "…" } }`
+- **Errors:** `ERR_INVALID_ARGS`, `ERR_SIGN_IN`, `ERR_CLIENT`
+
 ### `check-auth` (alias `status`)
 Reports whether a usable, authenticated session exists. **The authentication gate is the `is_auth` boolean, not the presence of `user`.**
 - **Not authenticated:** `{ "ok": true, "is_auth": false }` (no `user` / `channel` fields)
@@ -31,8 +36,8 @@ Reports whether a usable, authenticated session exists. **The authentication gat
 
 > The `user` object is `{ id, first_name, username, phone }` wherever it appears (here and in `sign-in`). Only `check-auth` carries `is_auth`; a successful `sign-in` implies authentication.
 
-### `init-storage [--title <title>]`
-Creates or reuses the private storage channel. If `--title` is omitted a randomized name ending in the storage tag is generated; an existing tagged channel is reused instead of creating a duplicate.
+### `init-storage [--title <title>] [--channel-id <id>]`
+Resolves the private storage channel, in this order: (1) `--channel-id` pins a specific channel by its id; (2) the saved destination config is reused if its channel still exists (robust to the channel being **renamed**, which a title scan would miss); (3) a channel whose title ends in the storage tag is reused; (4) otherwise a new channel is created (randomized name, or `--title`). Idempotent and safe to call on every startup.
 - **Success (reused):** `{ "ok": true, "channel": { "id": "-100…", "title": "…" }, "reused": true }`
 - **Success (created):** `{ "ok": true, "channel": { "id": "-100…", "title": "…" }, "created": true }`
 - **Errors:** `ERR_NOT_AUTH`, `ERR_INIT_STORAGE`, `ERR_CLIENT`
@@ -46,6 +51,11 @@ Uploads every file in the directory `<path>` as chunked documents into the stora
 Downloads a stored document (identified by its `message_id`, as returned by `list-remote`/`upload`) to `--out`.
 - **Success:** `{ "ok": true, "file": "<out path>", "size": <bytes> }`
 - **Errors:** `ERR_INVALID_REF`, `ERR_NOT_AUTH`, `ERR_DOWNLOAD`, `ERR_CLIENT`
+
+### `delete --ref <message_id>[,<id>...] [--dest telegram]`
+Deletes one or more stored items by `message_id` (comma-separated for a batch, e.g. `--ref 2,5,7`).
+- **Success:** `{ "ok": true, "deleted": [ <int>, … ] }`
+- **Errors:** `ERR_INVALID_REF`, `ERR_NOT_AUTH`, `ERR_DELETE`, `ERR_CLIENT`
 
 ### `list-remote` (alias `list-backups`) `[--dest telegram]`
 Lists the documents stored in the channel.
@@ -74,6 +84,7 @@ Drops the local session.
 | `ERR_UPLOAD` | Upload failed mid-transfer |
 | `ERR_DOWNLOAD` | Download failed |
 | `ERR_LIST` | Listing the channel failed |
+| `ERR_DELETE` | Deleting one or more messages failed |
 | `ERR_CLIENT` | MTProto client could not be created or connected |
 
 ## Notes for integrators

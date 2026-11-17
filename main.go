@@ -541,7 +541,46 @@ func cmdCheckAuth() {
 	}
 }
 
-func cmdInitStorage(customTitle string) {
+func getChannelByInput(ctx context.Context, api *tg.Client, rawID, accessHash int64) *tg.Channel {
+	res, err := api.ChannelsGetChannels(ctx, []tg.InputChannelClass{
+		&tg.InputChannel{ChannelID: rawID, AccessHash: accessHash},
+	})
+	if err != nil {
+		return nil
+	}
+	for _, chat := range res.GetChats() {
+		if ch, ok := chat.(*tg.Channel); ok {
+			return ch
+		}
+	}
+	return nil
+}
+
+func resolveChannelByID(ctx context.Context, api *tg.Client, idStr string) *tg.Channel {
+	clean := strings.TrimPrefix(strings.TrimSpace(idStr), "-100")
+	clean = strings.TrimPrefix(clean, "-")
+	want, err := strconv.ParseInt(clean, 10, 64)
+	if err != nil || want <= 0 {
+		return nil
+	}
+	dialogs, err := api.MessagesGetDialogs(ctx, &tg.MessagesGetDialogsRequest{
+		OffsetPeer: &tg.InputPeerEmpty{},
+		Limit:      100,
+	})
+	if err != nil {
+		return nil
+	}
+	if mod, ok := dialogs.AsModified(); ok {
+		for _, chat := range mod.GetChats() {
+			if ch, ok := chat.(*tg.Channel); ok && ch.ID == want {
+				return ch
+			}
+		}
+	}
+	return nil
+}
+
+func cmdInitStorage(customTitle, channelIDArg string) {
 	client, err := createClient()
 	if err != nil {
 		printError("ERR_CLIENT", err.Error())
@@ -557,22 +596,46 @@ func cmdInitStorage(customTitle string) {
 			printError("ERR_NOT_AUTH", "Not authenticated with Telegram")
 			return nil
 		}
+		api := client.API()
 
-		// First: auto-detect existing channel
-		ch, _ := findStorageChannel(ctx, client.API())
-		if ch != nil {
-			_ = saveDestConfig(ch, status.User)
+		emit := func(c *tg.Channel, key string) {
+			_ = saveDestConfig(c, status.User)
 			printJSON(map[string]any{
 				"ok": true,
 				"channel": map[string]any{
-					"id":    fmt.Sprintf("-100%d", ch.ID),
-					"title": ch.Title,
+					"id":    fmt.Sprintf("-100%d", c.ID),
+					"title": c.Title,
 				},
-				"reused": true,
+				key: true,
 			})
+		}
+
+		// explicit pin by id (--channel-id): the user/host chooses the channel outright
+		if strings.TrimSpace(channelIDArg) != "" {
+			c := resolveChannelByID(ctx, api, channelIDArg)
+			if c == nil {
+				printError("ERR_INIT_STORAGE", "channel id not found among your dialogs")
+				return nil
+			}
+			emit(c, "reused")
 			return nil
 		}
 
+		// saved destination first: robust to a channel rename (a title scan would miss it)
+		if dest, _ := loadDestConfig(); dest != nil && dest.ChannelRawID != 0 && dest.AccessHash != 0 {
+			if c := getChannelByInput(ctx, api, dest.ChannelRawID, dest.AccessHash); c != nil {
+				emit(c, "reused")
+				return nil
+			}
+		}
+
+		// then auto-detect an existing channel by title
+		if ch, _ := findStorageChannel(ctx, api); ch != nil {
+			emit(ch, "reused")
+			return nil
+		}
+
+		// finally, create one
 		title := strings.TrimSpace(customTitle)
 		if title == "" {
 			title = generateRandomChannelName()
@@ -580,7 +643,7 @@ func cmdInitStorage(customTitle string) {
 			title = title + "_" + storeTag()
 		}
 
-		updates, err := client.API().ChannelsCreateChannel(ctx, &tg.ChannelsCreateChannelRequest{
+		updates, err := api.ChannelsCreateChannel(ctx, &tg.ChannelsCreateChannelRequest{
 			Broadcast: true,
 			Title:     title,
 			About:     "Private storage",
@@ -603,19 +666,41 @@ func cmdInitStorage(customTitle string) {
 			return errors.New("failed to retrieve created channel details")
 		}
 
-		_ = saveDestConfig(createdChannel, status.User)
-		printJSON(map[string]any{
-			"ok": true,
-			"channel": map[string]any{
-				"id":    fmt.Sprintf("-100%d", createdChannel.ID),
-				"title": createdChannel.Title,
-			},
-			"created": true,
-		})
+		emit(createdChannel, "created")
 		return nil
 	})
 	if err != nil {
 		printError("ERR_INIT_STORAGE", err.Error())
+	}
+}
+
+func cmdBotLogin(token string) {
+	if strings.TrimSpace(token) == "" {
+		printError("ERR_INVALID_ARGS", "--token <bot_token> is required")
+		return
+	}
+	client, err := createClient()
+	if err != nil {
+		printError("ERR_CLIENT", err.Error())
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+	defer cancel()
+	err = client.Run(ctx, func(ctx context.Context) error {
+		au, err := client.Auth().Bot(ctx, token)
+		if err != nil {
+			printError("ERR_SIGN_IN", err.Error())
+			return nil
+		}
+		userMap := map[string]any{}
+		if u, ok := au.User.(*tg.User); ok {
+			userMap = map[string]any{"id": u.ID, "first_name": u.FirstName, "username": u.Username}
+		}
+		printJSON(map[string]any{"ok": true, "is_auth": true, "bot": true, "user": userMap})
+		return nil
+	})
+	if err != nil {
+		printError("ERR_CLIENT", err.Error())
 	}
 }
 
@@ -1011,9 +1096,92 @@ func parseListRemoteArgs(args []string) (dest string) {
 	return
 }
 
+func cmdDelete(destID string, refs []int) {
+	if len(refs) == 0 {
+		printError("ERR_INVALID_REF", "at least one --ref <message_id> is required")
+		return
+	}
+	dest, _ := loadDestConfig()
+	client, err := createClient()
+	if err != nil {
+		printError("ERR_CLIENT", err.Error())
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+	defer cancel()
+	err = client.Run(ctx, func(ctx context.Context) error {
+		api := client.API()
+		status, err := client.Auth().Status(ctx)
+		if err != nil || status == nil || !status.Authorized {
+			printError("ERR_NOT_AUTH", "Not authenticated with Telegram")
+			return nil
+		}
+		peer, err := parseChannelInputPeer(dest, destID, ctx, api)
+		if err != nil {
+			return err
+		}
+		inputChannel, ok := peer.(*tg.InputPeerChannel)
+		if !ok {
+			return errors.New("invalid channel peer")
+		}
+		if _, err := api.ChannelsDeleteMessages(ctx, &tg.ChannelsDeleteMessagesRequest{
+			Channel: &tg.InputChannel{
+				ChannelID:  inputChannel.ChannelID,
+				AccessHash: inputChannel.AccessHash,
+			},
+			ID: refs,
+		}); err != nil {
+			return err
+		}
+		printJSON(map[string]any{
+			"ok":      true,
+			"deleted": refs,
+		})
+		return nil
+	})
+	if err != nil {
+		printError("ERR_DELETE", err.Error())
+	}
+}
+
+func parseDeleteArgs(args []string) (dest string, refs []int) {
+	dest = "telegram"
+	var refStr string
+	for i := 0; i < len(args); i++ {
+		a := args[i]
+		if a == "--dest" || a == "-dest" {
+			if i+1 < len(args) {
+				dest = args[i+1]
+				i++
+			}
+		} else if strings.HasPrefix(a, "--dest=") || strings.HasPrefix(a, "-dest=") {
+			dest = strings.SplitN(a, "=", 2)[1]
+		} else if a == "--ref" || a == "-ref" {
+			if i+1 < len(args) {
+				refStr = args[i+1]
+				i++
+			}
+		} else if strings.HasPrefix(a, "--ref=") || strings.HasPrefix(a, "-ref=") {
+			refStr = strings.SplitN(a, "=", 2)[1]
+		} else {
+			refStr = a
+		}
+	}
+	for _, p := range strings.Split(refStr, ",") {
+		p = strings.TrimSpace(p)
+		if p == "" {
+			continue
+		}
+		if id, err := strconv.Atoi(p); err == nil && id > 0 {
+			refs = append(refs, id)
+		}
+	}
+	return
+}
+
 func main() {
 	if len(os.Args) < 2 {
-		printError("ERR_NO_COMMAND", "Subcommand required (send-code, sign-in, check-auth, init-storage, upload, download, list-remote, logout)")
+		printError("ERR_NO_COMMAND", "Subcommand required (send-code, sign-in, check-auth, init-storage, bot-login, upload, download, delete, list-remote, logout)")
 		os.Exit(1)
 	}
 
@@ -1041,8 +1209,9 @@ func main() {
 	case "init-storage":
 		fs := flag.NewFlagSet("init-storage", flag.ExitOnError)
 		title := fs.String("title", "", "Channel title")
+		channelID := fs.String("channel-id", "", "Pin a specific channel by its id (overrides discovery)")
 		_ = fs.Parse(args)
-		cmdInitStorage(*title)
+		cmdInitStorage(*title, *channelID)
 
 	case "upload":
 		dest, dir, opid := parseUploadArgs(args)
@@ -1055,6 +1224,16 @@ func main() {
 	case "download":
 		dest, ref, out, opid := parseDownloadArgs(args)
 		cmdDownload(dest, ref, out, opid)
+
+	case "delete":
+		dest, refs := parseDeleteArgs(args)
+		cmdDelete(dest, refs)
+
+	case "bot-login":
+		fs := flag.NewFlagSet("bot-login", flag.ExitOnError)
+		token := fs.String("token", "", "Bot token")
+		_ = fs.Parse(args)
+		cmdBotLogin(*token)
 
 	case "logout":
 		cmdLogout()

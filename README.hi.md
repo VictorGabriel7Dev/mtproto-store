@@ -49,10 +49,12 @@ MTProto स्टैक (`gotd/td` के साथ एक TLS-छद्मा�
 |---|---|
 | `send-code --phone <number>` | लॉगिन शुरू करें; Telegram लॉगिन कोड भेजता है |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | लॉगिन पूरा करें |
+| `bot-login --token <token>` | बॉट के रूप में लॉग इन करें (सीमित) |
 | `check-auth` (उपनाम `status`) | प्रमाणीकरण स्थिति की रिपोर्ट करें |
-| `init-storage [--title <title>]` | निजी स्टोरेज चैनल बनाएँ या पुनः उपयोग करें |
+| `init-storage [--title <title>] [--channel-id <id>]` | निजी स्टोरेज चैनल बनाएँ या पुनः उपयोग करें |
 | `upload --dir <path> [flags]` | एक डायरेक्टरी की फ़ाइलें चंक में अपलोड करता है |
 | `download [flags]` | संग्रहीत आर्काइव डाउनलोड करें |
+| `delete --ref <id>[,<id>...]` | एक या अधिक संग्रहीत आइटम हटाता है |
 | `list-remote` (उपनाम `list-backups`) | संग्रहीत वस्तुओं की सूची बनाएँ |
 | `logout` | स्थानीय सत्र को हटाएँ |
 

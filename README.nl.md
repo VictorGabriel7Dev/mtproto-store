@@ -49,10 +49,12 @@ Elk commando drukt één JSON-object af op stdout (`"ok": true | false`).
 |---|---|
 | `send-code --phone <number>` | Start het inloggen; Telegram stuurt de inlogcode |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Voltooi het inloggen |
+| `bot-login --token <token>` | Inloggen als bot (beperkt) |
 | `check-auth` (alias `status`) | Rapporteer de authenticatiestatus |
-| `init-storage [--title <title>]` | Maak of hergebruik het privé-opslagkanaal |
+| `init-storage [--title <title>] [--channel-id <id>]` | Maak of hergebruik het privé-opslagkanaal |
 | `upload --dir <path> [flags]` | Uploadt de bestanden in een map in delen |
 | `download [flags]` | Download een opgeslagen archief |
+| `delete --ref <id>[,<id>...]` | Verwijdert een of meer opgeslagen items |
 | `list-remote` (alias `list-backups`) | Toon een lijst van opgeslagen items |
 | `logout` | Verwijder de lokale sessie |
 

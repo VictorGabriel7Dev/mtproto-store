@@ -49,10 +49,12 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 |---|---|
 | `send-code --phone <number>` | เริ่มการเข้าสู่ระบบ; Telegram จะส่งรหัสเข้าสู่ระบบ |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | ทำการเข้าสู่ระบบให้เสร็จสมบูรณ์ |
+| `bot-login --token <token>` | เข้าสู่ระบบในฐานะบอท (จำกัด) |
 | `check-auth` (alias `status`) | รายงานสถานะการยืนยันตัวตน |
-| `init-storage [--title <title>]` | สร้างหรือใช้ซ้ำแชนเนลจัดเก็บส่วนตัว |
+| `init-storage [--title <title>] [--channel-id <id>]` | สร้างหรือใช้ซ้ำแชนเนลจัดเก็บส่วนตัว |
 | `upload --dir <path> [flags]` | อัปโหลดไฟล์ในไดเรกทอรีเป็นชังก์ |
 | `download [flags]` | ดาวน์โหลดอาร์ไคฟ์ที่จัดเก็บไว้ |
+| `delete --ref <id>[,<id>...]` | ลบรายการที่จัดเก็บไว้หนึ่งรายการขึ้นไป |
 | `list-remote` (alias `list-backups`) | แสดงรายการที่จัดเก็บไว้ |
 | `logout` | ยกเลิกเซสชันในเครื่อง |
 

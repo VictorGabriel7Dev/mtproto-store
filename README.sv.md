@@ -49,10 +49,12 @@ Varje kommando skriver ut ett enda JSON-objekt till stdout (`"ok": true | false`
 |---|---|
 | `send-code --phone <number>` | Starta inloggning; Telegram skickar inloggningskoden |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | Slutför inloggning |
+| `bot-login --token <token>` | Logga in som bot (begränsat) |
 | `check-auth` (alias `status`) | Rapportera autentiseringstillstånd |
-| `init-storage [--title <title>]` | Skapa eller återanvänd den privata lagringskanalen |
+| `init-storage [--title <title>] [--channel-id <id>]` | Skapa eller återanvänd den privata lagringskanalen |
 | `upload --dir <path> [flags]` | Laddar upp filerna i en katalog i delar |
 | `download [flags]` | Ladda ner ett lagrat arkiv |
+| `delete --ref <id>[,<id>...]` | Tar bort ett eller flera lagrade objekt |
 | `list-remote` (alias `list-backups`) | Lista lagrade objekt |
 | `logout` | Släpp den lokala sessionen |
 

@@ -49,10 +49,12 @@ MTProto スタック（`gotd/td` に、Telegram Desktop を模倣する TLS カ�
 |---|---|
 | `send-code --phone <number>` | ログインを開始する。Telegram がログインコードを送信する |
 | `sign-in --phone <number> --code <code> [--password <2fa>]` | ログインを完了する |
+| `bot-login --token <token>` | ボットとしてログイン（制限あり） |
 | `check-auth`（エイリアス `status`） | 認証状態を報告する |
-| `init-storage [--title <title>]` | プライベートストレージチャンネルを作成または再利用する |
+| `init-storage [--title <title>] [--channel-id <id>]` | プライベートストレージチャンネルを作成または再利用する |
 | `upload --dir <path> [flags]` | ディレクトリ内のファイルをチャンクに分けてアップロード |
 | `download [flags]` | 保存済みのアーカイブをダウンロードする |
+| `delete --ref <id>[,<id>...]` | 保存された項目を1つ以上削除 |
 | `list-remote`（エイリアス `list-backups`） | 保存済みの項目を一覧表示する |
 | `logout` | ローカルセッションを破棄する |
 
