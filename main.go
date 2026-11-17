@@ -840,7 +840,7 @@ func cmdListBackups(destID string) {
 			return err
 		}
 
-		var backups []map[string]any
+		backups := []map[string]any{}
 		if mod, ok := history.AsModified(); ok {
 			for _, mClass := range mod.GetMessages() {
 				msg, ok := mClass.(*tg.Message)

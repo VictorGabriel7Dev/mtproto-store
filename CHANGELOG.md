@@ -7,6 +7,7 @@ All notable changes to mtproto-store are documented here.
 - **New `delete` verb:** `delete --ref <message_id>[,<id>...]` removes one or more stored items (comma-separated for a batch), completing the CRUD cycle. JSON: `{ok, deleted:[...]}`.
 - **`init-storage` continuity:** it now reuses the saved destination channel by id before falling back to a title scan, so renaming the storage channel in Telegram no longer splits backups into a new channel. New `--channel-id <id>` flag pins a specific channel.
 - **Bot authentication:** new `bot-login --token <token>` authenticates as a bot. Limited mode (works against a pre-configured channel where the bot is an admin; no channel creation or listing) - see CONTRACT.md.
+- `list-remote` now returns an empty array (`[]`) instead of `null` for an empty channel.
 
 ## v1.0.0
 
