@@ -98,13 +98,13 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 ## ติดต่อ
 
 - https://victorgabriel.dev
-- *GitHub:* @VictorGabriel7Dev https://github.com/VictorGabriel7Dev
-- *Telegram:* @VictorGabriel_Dev https://t.me/VictorGabriel_Dev
-- *Discord:* @VictorGabriel.dev https://discord.com/users/1481407654458036265
-- *LinkedIn:* in/victorgabriel-dev https://www.linkedin.com/in/victorgabriel-dev
-- *Instagram:* @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
-- *WhatsApp:* @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
-- *E-mail:* contato@victorgabriel.dev
+- **GitHub:** @VictorGabriel7Dev https://github.com/VictorGabriel7Dev
+- **Telegram:** @VictorGabriel_Dev https://t.me/VictorGabriel_Dev
+- **Discord:** @VictorGabriel.dev https://discord.com/users/1481407654458036265
+- **LinkedIn:** in/victorgabriel-dev https://www.linkedin.com/in/victorgabriel-dev
+- **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
+- **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
+- **E-mail:** contato@victorgabriel.dev
 
 ---
 
