@@ -64,6 +64,7 @@ Mỗi lệnh in ra một đối tượng JSON duy nhất ra stdout (`"ok": true 
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | Thư mục trạng thái (phiên, cấu hình đích, nhật ký) |
 | `MTPROTO_STORE_TAG` | `MTPS` | Hậu tố đánh dấu các kênh lưu trữ của công cụ này |
+| `MTPROTO_STORE_LABEL` | - | Tên tùy chọn được lưu dưới dạng `label` trong siêu dữ liệu của mỗi mục đã tải lên (được trả về trong `list-remote`) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | `api_id` của riêng bạn từ my.telegram.org |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | `api_hash` của riêng bạn |
 

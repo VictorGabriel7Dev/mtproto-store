@@ -64,6 +64,7 @@ Elk commando drukt één JSON-object af op stdout (`"ok": true | false`).
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | Toestandsmap (sessie, bestemmingsconfiguratie, logs) |
 | `MTPROTO_STORE_TAG` | `MTPS` | Achtervoegsel dat de opslagkanalen van dit hulpmiddel markeert |
+| `MTPROTO_STORE_LABEL` | - | Optionele naam die als `label` wordt opgeslagen in de metadata van elk geüpload item (teruggegeven door `list-remote`) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | Je eigen `api_id` van my.telegram.org |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | Je eigen `api_hash` |
 

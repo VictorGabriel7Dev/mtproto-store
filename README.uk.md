@@ -64,6 +64,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | Каталог стану (сесія, конфігурація призначення, логи) |
 | `MTPROTO_STORE_TAG` | `MTPS` | Суфікс, що позначає канали сховища цього інструмента |
+| `MTPROTO_STORE_LABEL` | - | Необов'язкова назва, що зберігається як `label` у метаданих кожного завантаженого елемента (повертається в `list-remote`) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | Ваш власний `api_id` з my.telegram.org |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | Ваш власний `api_hash` |
 

@@ -64,6 +64,7 @@ MTProto 스택(`gotd/td` 에 Telegram Desktop 을 흉내 내는 TLS 위장 리�
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | 상태 디렉터리(세션, 대상 설정, 로그) |
 | `MTPROTO_STORE_TAG` | `MTPS` | 이 도구의 스토리지 채널을 표시하는 접미사 |
+| `MTPROTO_STORE_LABEL` | - | 업로드한 각 항목의 메타데이터에 `label`로 저장되는 선택적 이름 (`list-remote`에서 반환) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | my.telegram.org 에서 받은 자신만의 `api_id` |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | 자신만의 `api_hash` |
 
