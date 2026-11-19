@@ -64,6 +64,7 @@ MTProto स्टैक (`gotd/td` के साथ एक TLS-छद्मा�
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | स्थिति निर्देशिका (सत्र, गंतव्य विन्यास, लॉग) |
 | `MTPROTO_STORE_TAG` | `MTPS` | प्रत्यय जो इस उपकरण के स्टोरेज चैनलों को चिह्नित करता है |
+| `MTPROTO_STORE_LABEL` | - | वैकल्पिक नाम जो हर अपलोड किए गए आइटम के मेटाडेटा में `label` के रूप में सहेजा जाता है (`list-remote` में लौटता है) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | my.telegram.org से प्राप्त आपका अपना `api_id` |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | आपका अपना `api_hash` |
 

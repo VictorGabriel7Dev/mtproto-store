@@ -64,6 +64,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | پوشهٔ وضعیت (نشست، پیکربندی مقصد، لاگ‌ها) |
 | `MTPROTO_STORE_TAG` | `MTPS` | پسوندی که کانال‌های ذخیره‌سازی این ابزار را نشانه‌گذاری می‌کند |
+| `MTPROTO_STORE_LABEL` | - | نام اختیاری که به‌صورت `label` در فراداده هر مورد بارگذاری‌شده ذخیره می‌شود (در `list-remote` برگردانده می‌شود) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | `api_id` شخصی شما از my.telegram.org |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | `api_hash` شخصی شما |
 

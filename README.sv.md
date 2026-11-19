@@ -64,6 +64,7 @@ Varje kommando skriver ut ett enda JSON-objekt till stdout (`"ok": true | false`
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | Tillståndskatalog (session, destinationskonfiguration, loggar) |
 | `MTPROTO_STORE_TAG` | `MTPS` | Suffix som markerar det här verktygets lagringskanaler |
+| `MTPROTO_STORE_LABEL` | - | Valfritt namn som sparas som `label` i metadata för varje uppladdat objekt (returneras av `list-remote`) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | Ditt eget `api_id` från my.telegram.org |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | Ditt eget `api_hash` |
 

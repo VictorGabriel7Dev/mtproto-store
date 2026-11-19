@@ -64,6 +64,7 @@ MTProto 栈（`gotd/td` 加上一个模拟 Telegram Desktop 的 TLS 伪装解析
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | 状态目录（会话、目标配置、日志） |
 | `MTPROTO_STORE_TAG` | `MTPS` | 标记本工具存储频道的后缀 |
+| `MTPROTO_STORE_LABEL` | - | 可选名称,以 `label` 保存在每个上传项目的元数据中(由 `list-remote` 返回) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | 你自己的 `api_id`，来自 my.telegram.org |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | 你自己的 `api_hash` |
 

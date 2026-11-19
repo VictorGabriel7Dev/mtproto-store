@@ -79,6 +79,20 @@ func storeTag() string {
 	return "MTPS"
 }
 
+// uploadLabel is an optional human-readable name for the items of one upload, set by
+// the host in MTPROTO_STORE_LABEL. It is stored as "label" in each item's caption
+// metadata and comes back in list-remote, so a host can show a friendly name without
+// encoding it into the file name. An environment variable (not a flag) keeps older
+// binaries working: they ignore it instead of misreading an unknown argument.
+// Capped at 128 characters so the caption stays well under Telegram's limit.
+func uploadLabel() string {
+	label := []rune(strings.TrimSpace(os.Getenv("MTPROTO_STORE_LABEL")))
+	if len(label) > 128 {
+		label = label[:128]
+	}
+	return string(label)
+}
+
 type AuthStaging struct {
 	Phone         string `json:"phone"`
 	PhoneCodeHash string `json:"phone_code_hash"`
@@ -759,6 +773,9 @@ func cmdUpload(destID, dir, opid string) {
 				"sha256":    checksum,
 				"opid":      opid,
 				"timestamp": time.Now().UTC().Format(time.RFC3339),
+			}
+			if label := uploadLabel(); label != "" {
+				metaMap["label"] = label
 			}
 			metaBytes, _ := json.Marshal(metaMap)
 

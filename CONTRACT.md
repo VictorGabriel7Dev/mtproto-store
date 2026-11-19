@@ -44,6 +44,7 @@ Resolves the private storage channel, in this order: (1) `--channel-id` pins a s
 
 ### `upload --dir <path> [--dest telegram] [--opid <id>]`
 Uploads every file in the directory `<path>` as chunked documents into the storage channel. `--opid`, if given, makes the command write progress to `logs/progress-<opid>.json` (percent/phase), so a host can poll a long transfer.
+If `MTPROTO_STORE_LABEL` is set, its value is stored as `label` in each uploaded item's caption metadata (the `meta` that `list-remote` returns), so a host can attach a human-readable name without putting it in the file name. Unset: no `label` key, exactly as before.
 - **Success:** `{ "ok": true, "uploaded": [ { "name": "<file>", "size": <bytes>, "message_id": <int> }, … ] }`
 - **Errors:** `ERR_NO_FILES`, `ERR_NOT_AUTH`, `ERR_UPLOAD`, `ERR_CLIENT`
 

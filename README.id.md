@@ -64,6 +64,7 @@ Setiap perintah mencetak satu objek JSON ke stdout (`"ok": true | false`).
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | Direktori status (sesi, konfigurasi tujuan, log) |
 | `MTPROTO_STORE_TAG` | `MTPS` | Sufiks yang menandai kanal penyimpanan alat ini |
+| `MTPROTO_STORE_LABEL` | - | Nama opsional yang disimpan sebagai `label` di metadata setiap item yang diunggah (dikembalikan oleh `list-remote`) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | `api_id` Anda sendiri dari my.telegram.org |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | `api_hash` Anda sendiri |
 

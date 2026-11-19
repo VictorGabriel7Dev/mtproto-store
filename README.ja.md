@@ -64,6 +64,7 @@ MTProto スタック（`gotd/td` に、Telegram Desktop を模倣する TLS カ�
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | 状態ディレクトリ（セッション、宛先設定、ログ） |
 | `MTPROTO_STORE_TAG` | `MTPS` | このツールのストレージチャンネルを示すサフィックス |
+| `MTPROTO_STORE_LABEL` | - | アップロードした各項目のメタデータに `label` として保存される任意の名前(`list-remote` で返されます) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | my.telegram.org で取得した自分専用の `api_id` |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | 自分専用の `api_hash` |
 

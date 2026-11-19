@@ -64,6 +64,7 @@ Her komut, stdout'a tek bir JSON nesnesi yazar (`"ok": true | false`).
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | Durum dizini (oturum, hedef yapılandırması, günlükler) |
 | `MTPROTO_STORE_TAG` | `MTPS` | Bu aracın depolama kanallarını işaretleyen sonek |
+| `MTPROTO_STORE_LABEL` | - | Yüklenen her öğenin meta verisinde `label` olarak saklanan isteğe bağlı ad (`list-remote` tarafından döndürülür) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | my.telegram.org adresinden kendi `api_id` değeriniz |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | Kendi `api_hash` değeriniz |
 

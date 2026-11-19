@@ -64,6 +64,7 @@ Každý příkaz vytiskne jediný objekt JSON na stdout (`"ok": true | false`).
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | Adresář stavu (relace, konfigurace cíle, logy) |
 | `MTPROTO_STORE_TAG` | `MTPS` | Přípona, která označuje kanály úložiště tohoto nástroje |
+| `MTPROTO_STORE_LABEL` | - | Volitelný název uložený jako `label` v metadatech každé nahrané položky (vrací ho `list-remote`) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | Váš vlastní `api_id` z my.telegram.org |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | Váš vlastní `api_hash` |
 

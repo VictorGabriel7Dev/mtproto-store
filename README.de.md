@@ -64,6 +64,7 @@ Jeder Befehl gibt ein einzelnes JSON-Objekt auf stdout aus (`"ok": true | false`
 |---|---|---|
 | `MTPROTO_STORE_STATE` | `$HOME/.mtproto-store` | Statusverzeichnis (Sitzung, Zielkonfiguration, Protokolle) |
 | `MTPROTO_STORE_TAG` | `MTPS` | Suffix, das die Speicherkanäle dieses Tools kennzeichnet |
+| `MTPROTO_STORE_LABEL` | - | Optionaler Name, der als `label` in den Metadaten jedes hochgeladenen Elements gespeichert wird (von `list-remote` zurückgegeben) |
 | `MTPROTO_STORE_API_ID` | Telegram Desktop | Ihre eigene `api_id` von my.telegram.org |
 | `MTPROTO_STORE_API_HASH` | Telegram Desktop | Ihr eigener `api_hash` |
 
