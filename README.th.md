@@ -53,7 +53,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 | `check-auth` (alias `status`) | รายงานสถานะการยืนยันตัวตน |
 | `init-storage [--title <title>] [--channel-id <id>]` | สร้างหรือใช้ซ้ำแชนเนลจัดเก็บส่วนตัว |
 | `upload --dir <path> [flags]` | อัปโหลดไฟล์ในไดเรกทอรีเป็นชังก์ |
-| `download [flags]` | ดาวน์โหลดอาร์ไคฟ์ที่จัดเก็บไว้ |
+| `download --ref <id> --out <path> [flags]` | ดาวน์โหลดอาร์ไคฟ์ที่จัดเก็บไว้ |
 | `delete --ref <id>[,<id>...]` | ลบรายการที่จัดเก็บไว้หนึ่งรายการขึ้นไป |
 | `list-remote` (alias `list-backups`) | แสดงรายการที่จัดเก็บไว้ |
 | `logout` | ยกเลิกเซสชันในเครื่อง |
@@ -92,10 +92,6 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - คลังข้อมูล `build.prop` ของ Pixel จริง ที่เรียกดูได้และอัปเดตอัตโนมัติ
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - บอตดูแลและป้องกันสแปมสำหรับกลุ่ม Telegram
 
-## สัญญาอนุญาต
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) และผู้มีส่วนร่วม ดู [LICENSE](LICENSE) การรันเวอร์ชันที่แก้ไขแล้วเป็นบริการเครือข่ายทำให้คุณมีหน้าที่ต้องเสนอซอร์สโค้ดของมัน
-
 ## ติดต่อ
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## สัญญาอนุญาต
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) และผู้มีส่วนร่วม ดู [LICENSE](LICENSE) การรันเวอร์ชันที่แก้ไขแล้วเป็นบริการเครือข่ายทำให้คุณมีหน้าที่ต้องเสนอซอร์สโค้ดของมัน
 
 ---
 

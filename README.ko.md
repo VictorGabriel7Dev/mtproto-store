@@ -53,7 +53,7 @@ MTProto 스택(`gotd/td` 에 Telegram Desktop 을 흉내 내는 TLS 위장 리�
 | `check-auth`(별칭 `status`) | 인증 상태를 보고한다 |
 | `init-storage [--title <title>] [--channel-id <id>]` | 비공개 스토리지 채널을 생성하거나 재사용한다 |
 | `upload --dir <path> [flags]` | 디렉터리의 파일을 청크로 업로드 |
-| `download [flags]` | 저장된 아카이브를 다운로드한다 |
+| `download --ref <id> --out <path> [flags]` | 저장된 아카이브를 다운로드한다 |
 | `delete --ref <id>[,<id>...]` | 저장된 항목을 하나 이상 삭제 |
 | `list-remote`(별칭 `list-backups`) | 저장된 항목을 나열한다 |
 | `logout` | 로컬 세션을 폐기한다 |
@@ -92,10 +92,6 @@ MTProto 스택(`gotd/td` 에 Telegram Desktop 을 흉내 내는 TLS 위장 리�
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - 실제 Pixel 의 `build.prop` 데이터를 탐색할 수 있고 자동으로 업데이트되는 아카이브.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - Telegram 그룹용 스팸 방지 모더레이션 bot.
 
-## 라이선스
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) 및 기여자들. [LICENSE](LICENSE) 를 참조하세요. 수정된 버전을 네트워크 서비스로 운영하면 그 소스를 제공할 의무가 발생합니다.
-
 ## 연락처
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ MTProto 스택(`gotd/td` 에 Telegram Desktop 을 흉내 내는 TLS 위장 리�
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## 라이선스
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) 및 기여자들. [LICENSE](LICENSE) 를 참조하세요. 수정된 버전을 네트워크 서비스로 운영하면 그 소스를 제공할 의무가 발생합니다.
 
 ---
 

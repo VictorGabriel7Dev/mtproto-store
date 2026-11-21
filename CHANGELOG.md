@@ -2,6 +2,22 @@
 
 All notable changes to mtproto-store are documented here.
 
+## v1.2.0
+
+New: an optional upload label, plus correctness and robustness fixes.
+
+- **`MTPROTO_STORE_LABEL` (optional).** When set, its value is stored as `label` in each uploaded item's caption metadata and returned by `list-remote` in `meta`, so a host can attach a human-readable name without encoding it into the file name. An environment variable (not a flag), so an older binary ignores it; capped at 128 characters. Contributed by Ash ([@ash-iir](https://github.com/ash-iir)).
+- **Bad flags return JSON, not a silent exit.** `send-code`, `sign-in`, `init-storage` and `bot-login` parsed flags in a mode that exited the process (code 2, empty stdout) on an unknown or malformed flag. They now emit `{ok:false, code:"ERR_INVALID_ARGS"}` like every other command.
+- **`upload` requires `--dir`.** A missing `--dir` previously globbed the current working directory and could upload its contents; it now returns `ERR_INVALID_ARGS` before touching the filesystem.
+- **Correct `ERR_NOT_AUTH`.** `upload`, `download` and `list-remote` now verify the session first and return `ERR_NOT_AUTH` when unauthenticated, instead of a misleading `ERR_UPLOAD` / `ERR_DOWNLOAD` / `ERR_LIST`.
+- **`check-auth` hardened.** It no longer dereferences a nil user on an authorized-but-userless session, and reports `ERR_CLIENT` (not `is_auth:false`) when it cannot connect, so a transient network error is not mistaken for a logged-out account.
+- **`upload` fails loudly** instead of returning a `message_id:0` handle it could not resolve (now tolerant of both `Updates` and `UpdatesCombined`), and emits `uploaded: []` rather than `null` for an empty set.
+- **Stricter references.** `download --ref` rejects non-positive ids as `ERR_INVALID_REF`; `delete` rejects an invalid id inside a batch (e.g. `2,abc,5`) instead of silently dropping it.
+- **Unknown flags are rejected** across `upload` / `download` / `list-remote` / `delete` instead of being swallowed as positional arguments.
+- **Connection failures report `ERR_CLIENT`.** Every command now separates a transport/connect failure (reported as `ERR_CLIENT`, as the contract states) from a command-level error, instead of labelling a dropped connection with the command's own code.
+- **`send-code` on an already-authenticated session** returns `{ok:true, already_authorized:true}` instead of an empty `phone_code_hash`, so a host can skip `sign-in`.
+- CONTRACT documents the `sha256` field in `upload` results, the `already_authorized` response, and the per-command `ERR_INVALID_ARGS` code.
+
 ## v1.1.1
 
 Maintenance release. No functional change to the CLI; the binary is unchanged from v1.1.0.

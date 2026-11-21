@@ -53,7 +53,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 | `check-auth` (نام مستعار `status`) | گزارش وضعیت احراز هویت |
 | `init-storage [--title <title>] [--channel-id <id>]` | ساخت یا استفادهٔ دوباره از کانال ذخیره‌سازی خصوصی |
 | `upload --dir <path> [flags]` | فایل‌های یک پوشه را تکه‌تکه بارگذاری می‌کند |
-| `download [flags]` | دانلود یک آرشیو ذخیره‌شده |
+| `download --ref <id> --out <path> [flags]` | دانلود یک آرشیو ذخیره‌شده |
 | `delete --ref <id>[,<id>...]` | یک یا چند مورد ذخیره‌شده را حذف می‌کند |
 | `list-remote` (نام مستعار `list-backups`) | فهرست‌کردن موارد ذخیره‌شده |
 | `logout` | کنارگذاشتن نشست محلی |
@@ -92,10 +92,6 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - یک آرشیو قابل‌مرور و به‌طور خودکار به‌روزرسانی‌شده از دادهٔ واقعی `build.prop` دستگاه‌های Pixel.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - یک bot مدیریتی ضد هرزنامه برای گروه‌های Telegram.
 
-## مجوز
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) و مشارکت‌کنندگان. به [LICENSE](LICENSE) مراجعه کنید. اجرای یک نسخهٔ تغییریافته به عنوان یک سرویس شبکه‌ای، شما را موظف می‌کند که کد منبع آن را ارائه دهید.
-
 ## تماس
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## مجوز
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) و مشارکت‌کنندگان. به [LICENSE](LICENSE) مراجعه کنید. اجرای یک نسخهٔ تغییریافته به عنوان یک سرویس شبکه‌ای، شما را موظف می‌کند که کد منبع آن را ارائه دهید.
 
 ---
 

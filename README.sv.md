@@ -53,7 +53,7 @@ Varje kommando skriver ut ett enda JSON-objekt till stdout (`"ok": true | false`
 | `check-auth` (alias `status`) | Rapportera autentiseringstillstånd |
 | `init-storage [--title <title>] [--channel-id <id>]` | Skapa eller återanvänd den privata lagringskanalen |
 | `upload --dir <path> [flags]` | Laddar upp filerna i en katalog i delar |
-| `download [flags]` | Ladda ner ett lagrat arkiv |
+| `download --ref <id> --out <path> [flags]` | Ladda ner ett lagrat arkiv |
 | `delete --ref <id>[,<id>...]` | Tar bort ett eller flera lagrade objekt |
 | `list-remote` (alias `list-backups`) | Lista lagrade objekt |
 | `logout` | Släpp den lokala sessionen |
@@ -92,10 +92,6 @@ Kärnan i det här verktyget skrevs ursprungligen av **Ash ([@ash-iir](https://g
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - ett bläddringsbart, automatiskt uppdaterat arkiv med riktiga Pixel-`build.prop`-data.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - antispam-modereringsbot för Telegram-grupper.
 
-## Licens
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) och bidragsgivare. Se [LICENSE](LICENSE). Att köra en modifierad version som en nätverkstjänst förpliktar dig att erbjuda dess källkod.
-
 ## Kontakt
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ Kärnan i det här verktyget skrevs ursprungligen av **Ash ([@ash-iir](https://g
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## Licens
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) och bidragsgivare. Se [LICENSE](LICENSE). Att köra en modifierad version som en nätverkstjänst förpliktar dig att erbjuda dess källkod.
 
 ---
 

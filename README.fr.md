@@ -53,7 +53,7 @@ Chaque commande affiche un seul objet JSON sur stdout (`"ok": true | false`).
 | `check-auth` (alias `status`) | Indique l'état d'authentification |
 | `init-storage [--title <title>] [--channel-id <id>]` | Crée ou réutilise le canal de stockage privé |
 | `upload --dir <path> [flags]` | Téléverse les fichiers d'un répertoire en fragments |
-| `download [flags]` | Télécharge une archive stockée |
+| `download --ref <id> --out <path> [flags]` | Télécharge une archive stockée |
 | `delete --ref <id>[,<id>...]` | Supprime un ou plusieurs éléments stockés |
 | `list-remote` (alias `list-backups`) | Liste les éléments stockés |
 | `logout` | Supprime la session locale |
@@ -92,10 +92,6 @@ Le cœur de cet outil a été initialement écrit par **Ash ([@ash-iir](https://
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - une archive consultable et mise à jour automatiquement de données `build.prop` réelles de Pixel.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - bot de modération anti-spam pour les groupes Telegram.
 
-## Licence
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) et contributeurs. Voir [LICENSE](LICENSE). Exécuter une version modifiée en tant que service réseau vous oblige à en proposer le code source.
-
 ## Contact
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ Le cœur de cet outil a été initialement écrit par **Ash ([@ash-iir](https://
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## Licence
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) et contributeurs. Voir [LICENSE](LICENSE). Exécuter une version modifiée en tant que service réseau vous oblige à en proposer le code source.
 
 ---
 

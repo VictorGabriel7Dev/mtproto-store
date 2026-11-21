@@ -53,7 +53,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 | `check-auth` (الاسم البديل `status`) | الإبلاغ عن حالة المصادقة |
 | `init-storage [--title <title>] [--channel-id <id>]` | إنشاء قناة التخزين الخاصة أو إعادة استخدامها |
 | `upload --dir <path> [flags]` | يرفع ملفات مجلد على شكل أجزاء |
-| `download [flags]` | تنزيل أرشيف مخزَّن |
+| `download --ref <id> --out <path> [flags]` | تنزيل أرشيف مخزَّن |
 | `delete --ref <id>[,<id>...]` | يحذف عنصرًا أو أكثر من العناصر المخزنة |
 | `list-remote` (الاسم البديل `list-backups`) | سرد العناصر المخزَّنة |
 | `logout` | إسقاط الجلسة المحلية |
@@ -92,10 +92,6 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - أرشيف قابل للتصفح ومُحدَّث تلقائيًا لبيانات `build.prop` حقيقية من أجهزة Pixel.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - bot لإشراف مكافحة البريد المزعج لمجموعات Telegram.
 
-## الترخيص
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) والمساهمون. انظر [LICENSE](LICENSE). إن تشغيل نسخة معدَّلة كخدمة شبكية يُلزمك بتقديم شِفرتها المصدرية.
-
 ## التواصل
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## الترخيص
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) والمساهمون. انظر [LICENSE](LICENSE). إن تشغيل نسخة معدَّلة كخدمة شبكية يُلزمك بتقديم شِفرتها المصدرية.
 
 ---
 

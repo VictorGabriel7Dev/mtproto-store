@@ -49,7 +49,10 @@ if verbs_doc - verbs_code:
     fail.append("verb(s) in CONTRACT.md but missing from code: %s" % sorted(verbs_doc - verbs_code))
 
 # --- error codes ---
+# Codes reach stdout three ways: printError(code, ...) directly, a literal
+# "code" field in a JSON map, and fail(code, err) -> emitRunError -> printError.
 errs_code = set(re.findall(r'printError\("([A-Z0-9_]+)"', code))
+errs_code |= set(re.findall(r'\bfail\("([A-Z0-9_]+)"', code))
 errs_code |= set(re.findall(r'"code":\s*"([A-Z0-9_]+)"', code))
 if '"2FA_REQUIRED"' in code:
     errs_code.add("2FA_REQUIRED")

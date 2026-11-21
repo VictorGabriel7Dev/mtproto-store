@@ -53,7 +53,7 @@ MTProto スタック（`gotd/td` に、Telegram Desktop を模倣する TLS カ�
 | `check-auth`（エイリアス `status`） | 認証状態を報告する |
 | `init-storage [--title <title>] [--channel-id <id>]` | プライベートストレージチャンネルを作成または再利用する |
 | `upload --dir <path> [flags]` | ディレクトリ内のファイルをチャンクに分けてアップロード |
-| `download [flags]` | 保存済みのアーカイブをダウンロードする |
+| `download --ref <id> --out <path> [flags]` | 保存済みのアーカイブをダウンロードする |
 | `delete --ref <id>[,<id>...]` | 保存された項目を1つ以上削除 |
 | `list-remote`（エイリアス `list-backups`） | 保存済みの項目を一覧表示する |
 | `logout` | ローカルセッションを破棄する |
@@ -92,10 +92,6 @@ MTProto スタック（`gotd/td` に、Telegram Desktop を模倣する TLS カ�
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - 実際の Pixel の `build.prop` データを閲覧でき、自動更新されるアーカイブ。
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - Telegram グループ向けのスパム対策モデレーション bot。
 
-## ライセンス
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) およびコントリビューター。[LICENSE](LICENSE) を参照してください。改変版をネットワークサービスとして運用する場合、そのソースを提供する義務が生じます。
-
 ## 連絡先
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ MTProto スタック（`gotd/td` に、Telegram Desktop を模倣する TLS カ�
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## ライセンス
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) およびコントリビューター。[LICENSE](LICENSE) を参照してください。改変版をネットワークサービスとして運用する場合、そのソースを提供する義務が生じます。
 
 ---
 

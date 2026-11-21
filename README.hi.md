@@ -53,7 +53,7 @@ MTProto स्टैक (`gotd/td` के साथ एक TLS-छद्मा�
 | `check-auth` (उपनाम `status`) | प्रमाणीकरण स्थिति की रिपोर्ट करें |
 | `init-storage [--title <title>] [--channel-id <id>]` | निजी स्टोरेज चैनल बनाएँ या पुनः उपयोग करें |
 | `upload --dir <path> [flags]` | एक डायरेक्टरी की फ़ाइलें चंक में अपलोड करता है |
-| `download [flags]` | संग्रहीत आर्काइव डाउनलोड करें |
+| `download --ref <id> --out <path> [flags]` | संग्रहीत आर्काइव डाउनलोड करें |
 | `delete --ref <id>[,<id>...]` | एक या अधिक संग्रहीत आइटम हटाता है |
 | `list-remote` (उपनाम `list-backups`) | संग्रहीत वस्तुओं की सूची बनाएँ |
 | `logout` | स्थानीय सत्र को हटाएँ |
@@ -92,10 +92,6 @@ MTProto स्टैक (`gotd/td` के साथ एक TLS-छद्मा�
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - वास्तविक Pixel `build.prop` डेटा का एक ब्राउज़-योग्य, स्वतः-अद्यतन संग्रह।
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - Telegram समूहों के लिए एक एंटी-स्पैम मॉडरेशन bot।
 
-## लाइसेंस
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) और योगदानकर्ता। [LICENSE](LICENSE) देखें। किसी संशोधित संस्करण को एक नेटवर्क सेवा के रूप में चलाने पर आप उसका स्रोत प्रस्तुत करने के लिए बाध्य होते हैं।
-
 ## संपर्क
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ MTProto स्टैक (`gotd/td` के साथ एक TLS-छद्मा�
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## लाइसेंस
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) और योगदानकर्ता। [LICENSE](LICENSE) देखें। किसी संशोधित संस्करण को एक नेटवर्क सेवा के रूप में चलाने पर आप उसका स्रोत प्रस्तुत करने के लिए बाध्य होते हैं।
 
 ---
 

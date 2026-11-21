@@ -53,7 +53,7 @@ Každý příkaz vytiskne jediný objekt JSON na stdout (`"ok": true | false`).
 | `check-auth` (alias `status`) | Nahlásit stav ověření |
 | `init-storage [--title <title>] [--channel-id <id>]` | Vytvořit nebo znovu použít soukromý kanál úložiště |
 | `upload --dir <path> [flags]` | Nahraje soubory z adresáře po částech |
-| `download [flags]` | Stáhnout uložený archiv |
+| `download --ref <id> --out <path> [flags]` | Stáhnout uložený archiv |
 | `delete --ref <id>[,<id>...]` | Smaže jednu nebo více uložených položek |
 | `list-remote` (alias `list-backups`) | Vypsat uložené položky |
 | `logout` | Zrušit místní relaci |
@@ -92,10 +92,6 @@ Jádro tohoto nástroje původně napsal **Ash ([@ash-iir](https://github.com/as
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - procházitelný, automaticky aktualizovaný archiv skutečných dat `build.prop` z Pixelů.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - moderační bot proti spamu pro skupiny Telegramu.
 
-## Licence
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) a přispěvatelé. Viz [LICENSE](LICENSE). Provozování upravené verze jako síťové služby vás zavazuje nabídnout její zdrojový kód.
-
 ## Kontakt
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ Jádro tohoto nástroje původně napsal **Ash ([@ash-iir](https://github.com/as
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## Licence
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) a přispěvatelé. Viz [LICENSE](LICENSE). Provozování upravené verze jako síťové služby vás zavazuje nabídnout její zdrojový kód.
 
 ---
 

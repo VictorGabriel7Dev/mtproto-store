@@ -160,6 +160,30 @@ func printError(code, msg string) {
 	})
 }
 
+// cmdErr tags an error with the JSON error code to emit for it. An error that
+// bubbles out of client.Run WITHOUT this tag is a connect/transport failure and is
+// reported as ERR_CLIENT; a tagged error carries its command-specific code instead.
+type cmdErr struct {
+	code string
+	err  error
+}
+
+func (e *cmdErr) Error() string { return e.err.Error() }
+func (e *cmdErr) Unwrap() error { return e.err }
+
+func fail(code string, err error) error { return &cmdErr{code: code, err: err} }
+
+// emitRunError prints the JSON error for an error returned by client.Run: the tagged
+// command code when present, otherwise ERR_CLIENT (the connection could not be made).
+func emitRunError(err error) {
+	var ce *cmdErr
+	if errors.As(err, &ce) {
+		printError(ce.code, ce.err.Error())
+	} else {
+		printError("ERR_CLIENT", err.Error())
+	}
+}
+
 func generateRandomChannelName() string {
 	tag := storeTag()
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -348,6 +372,28 @@ func computeSHA256(filePath string) (string, error) {
 	return hex.EncodeToString(h.Sum(nil)), nil
 }
 
+// extractMsgID pulls the new message id out of a SendMedia result, tolerating
+// both *tg.Updates and *tg.UpdatesCombined; 0 means it could not be resolved.
+func extractMsgID(res tg.UpdatesClass) int {
+	var ups []tg.UpdateClass
+	switch u := res.(type) {
+	case *tg.Updates:
+		ups = u.Updates
+	case *tg.UpdatesCombined:
+		ups = u.Updates
+	default:
+		return 0
+	}
+	for _, update := range ups {
+		if m, ok := update.(*tg.UpdateNewChannelMessage); ok {
+			if msg, ok := m.Message.(*tg.Message); ok {
+				return msg.ID
+			}
+		}
+	}
+	return 0
+}
+
 // Subcommand Handlers
 
 func cmdSendCode(phone string) {
@@ -366,18 +412,34 @@ func cmdSendCode(phone string) {
 	defer cancel()
 
 	err = client.Run(ctx, func(ctx context.Context) error {
+		// Never call SendCode on an already-authorized session: Telegram treats it as
+		// a fresh login and de-authorizes the active session. Check first and stop.
+		if st, e := client.Auth().Status(ctx); e == nil && st != nil && st.Authorized {
+			printJSON(map[string]any{
+				"ok":                 true,
+				"phone":              phone,
+				"already_authorized": true,
+			})
+			return nil
+		}
 		res, err := client.Auth().SendCode(ctx, phone, auth.SendCodeOptions{})
 		if err != nil {
-			return err
+			return fail("ERR_SEND_CODE", err)
 		}
 		var codeHash string
 		switch v := res.(type) {
 		case *tg.AuthSentCode:
 			codeHash = v.PhoneCodeHash
 		case *tg.AuthSentCodeSuccess:
-			// Already authorized
+			// A code was auto-confirmed via another logged-in session; treat as done.
+			printJSON(map[string]any{
+				"ok":                 true,
+				"phone":              phone,
+				"already_authorized": true,
+			})
+			return nil
 		default:
-			return fmt.Errorf("unexpected send code response: %T", res)
+			return fail("ERR_SEND_CODE", fmt.Errorf("unexpected send code response: %T", res))
 		}
 
 		staging := AuthStaging{
@@ -396,7 +458,7 @@ func cmdSendCode(phone string) {
 		return nil
 	})
 	if err != nil {
-		printError("ERR_SEND_CODE", err.Error())
+		emitRunError(err)
 	}
 }
 
@@ -439,10 +501,10 @@ func cmdSignIn(phone, code, password string) {
 					return nil
 				}
 				if _, pErr := client.Auth().Password(ctx, password); pErr != nil {
-					return pErr
+					return fail("ERR_SIGN_IN", pErr)
 				}
 			} else {
-				return err
+				return fail("ERR_SIGN_IN", err)
 			}
 		}
 
@@ -483,7 +545,7 @@ func cmdSignIn(phone, code, password string) {
 		return nil
 	})
 	if err != nil {
-		printError("ERR_SIGN_IN", err.Error())
+		emitRunError(err)
 	}
 }
 
@@ -517,11 +579,14 @@ func cmdCheckAuth() {
 		}
 
 		u := status.User
-		userMap := map[string]any{
-			"id":         u.ID,
-			"first_name": u.FirstName,
-			"username":   u.Username,
-			"phone":      u.Phone,
+		var userMap map[string]any
+		if u != nil {
+			userMap = map[string]any{
+				"id":         u.ID,
+				"first_name": u.FirstName,
+				"username":   u.Username,
+				"phone":      u.Phone,
+			}
 		}
 
 		var channelMap any
@@ -548,10 +613,9 @@ func cmdCheckAuth() {
 		return nil
 	})
 	if err != nil {
-		printJSON(map[string]any{
-			"ok":      true,
-			"is_auth": false,
-		})
+		// The callback never returns a non-nil error (it prints is_auth:false on
+		// a Status failure), so any error here is a connect/transport failure.
+		printError("ERR_CLIENT", err.Error())
 	}
 }
 
@@ -663,7 +727,7 @@ func cmdInitStorage(customTitle, channelIDArg string) {
 			About:     "Private storage",
 		})
 		if err != nil {
-			return err
+			return fail("ERR_INIT_STORAGE", err)
 		}
 
 		var createdChannel *tg.Channel
@@ -677,14 +741,14 @@ func cmdInitStorage(customTitle, channelIDArg string) {
 		}
 
 		if createdChannel == nil {
-			return errors.New("failed to retrieve created channel details")
+			return fail("ERR_INIT_STORAGE", errors.New("failed to retrieve created channel details"))
 		}
 
 		emit(createdChannel, "created")
 		return nil
 	})
 	if err != nil {
-		printError("ERR_INIT_STORAGE", err.Error())
+		emitRunError(err)
 	}
 }
 
@@ -719,6 +783,10 @@ func cmdBotLogin(token string) {
 }
 
 func cmdUpload(destID, dir, opid string) {
+	if strings.TrimSpace(dir) == "" {
+		printError("ERR_INVALID_ARGS", "--dir <path> is required")
+		return
+	}
 	dest, _ := loadDestConfig()
 
 	files, err := filepath.Glob(filepath.Join(dir, "*"))
@@ -738,13 +806,18 @@ func cmdUpload(destID, dir, opid string) {
 
 	err = client.Run(ctx, func(ctx context.Context) error {
 		api := client.API()
+		status, err := client.Auth().Status(ctx)
+		if err != nil || status == nil || !status.Authorized {
+			printError("ERR_NOT_AUTH", "Not authenticated with Telegram")
+			return nil
+		}
 		peer, err := parseChannelInputPeer(dest, destID, ctx, api)
 		if err != nil {
-			return err
+			return fail("ERR_UPLOAD", err)
 		}
 
 		u := uploader.NewUploader(api).WithPartSize(512 * 1024).WithThreads(4)
-		var uploaded []map[string]any
+		uploaded := []map[string]any{}
 
 		totalFiles := len(files)
 		for idx, filePath := range files {
@@ -764,7 +837,7 @@ func cmdUpload(destID, dir, opid string) {
 
 			uploadFile, err := u.FromPath(ctx, filePath)
 			if err != nil {
-				return fmt.Errorf("upload %s failed: %w", fileName, err)
+				return fail("ERR_UPLOAD", fmt.Errorf("upload %s failed: %w", fileName, err))
 			}
 
 			metaMap := map[string]any{
@@ -794,19 +867,12 @@ func cmdUpload(destID, dir, opid string) {
 				RandomID: rand.Int63(),
 			})
 			if err != nil {
-				return fmt.Errorf("send media %s failed: %w", fileName, err)
+				return fail("ERR_UPLOAD", fmt.Errorf("send media %s failed: %w", fileName, err))
 			}
 
-			var msgID int
-			if upd, ok := res.(*tg.Updates); ok {
-				for _, update := range upd.Updates {
-					if m, ok := update.(*tg.UpdateNewChannelMessage); ok {
-						if msg, ok := m.Message.(*tg.Message); ok {
-							msgID = msg.ID
-							break
-						}
-					}
-				}
+			msgID := extractMsgID(res)
+			if msgID == 0 {
+				return fail("ERR_UPLOAD", fmt.Errorf("send media %s: could not resolve stored message id", fileName))
 			}
 
 			uploaded = append(uploaded, map[string]any{
@@ -826,7 +892,7 @@ func cmdUpload(destID, dir, opid string) {
 		return nil
 	})
 	if err != nil {
-		printError("ERR_UPLOAD", err.Error())
+		emitRunError(err)
 	}
 }
 
@@ -844,9 +910,14 @@ func cmdListBackups(destID string) {
 
 	err = client.Run(ctx, func(ctx context.Context) error {
 		api := client.API()
+		status, err := client.Auth().Status(ctx)
+		if err != nil || status == nil || !status.Authorized {
+			printError("ERR_NOT_AUTH", "Not authenticated with Telegram")
+			return nil
+		}
 		peer, err := parseChannelInputPeer(dest, destID, ctx, api)
 		if err != nil {
-			return err
+			return fail("ERR_LIST", err)
 		}
 
 		history, err := api.MessagesGetHistory(ctx, &tg.MessagesGetHistoryRequest{
@@ -854,7 +925,7 @@ func cmdListBackups(destID string) {
 			Limit: 100,
 		})
 		if err != nil {
-			return err
+			return fail("ERR_LIST", err)
 		}
 
 		backups := []map[string]any{}
@@ -901,7 +972,7 @@ func cmdListBackups(destID string) {
 		return nil
 	})
 	if err != nil {
-		printError("ERR_LIST", err.Error())
+		emitRunError(err)
 	}
 }
 
@@ -909,8 +980,8 @@ func cmdDownload(destID, ref, outPath, opid string) {
 	dest, _ := loadDestConfig()
 
 	targetMsgID, err := strconv.Atoi(ref)
-	if err != nil {
-		printError("ERR_INVALID_REF", "Reference must be a message ID")
+	if err != nil || targetMsgID <= 0 {
+		printError("ERR_INVALID_REF", "Reference must be a positive message ID")
 		return
 	}
 
@@ -925,14 +996,19 @@ func cmdDownload(destID, ref, outPath, opid string) {
 
 	err = client.Run(ctx, func(ctx context.Context) error {
 		api := client.API()
+		status, err := client.Auth().Status(ctx)
+		if err != nil || status == nil || !status.Authorized {
+			printError("ERR_NOT_AUTH", "Not authenticated with Telegram")
+			return nil
+		}
 		peer, err := parseChannelInputPeer(dest, destID, ctx, api)
 		if err != nil {
-			return err
+			return fail("ERR_DOWNLOAD", err)
 		}
 
 		inputChannel, ok := peer.(*tg.InputPeerChannel)
 		if !ok {
-			return errors.New("invalid channel peer")
+			return fail("ERR_DOWNLOAD", errors.New("invalid channel peer"))
 		}
 
 		res, err := api.ChannelsGetMessages(ctx, &tg.ChannelsGetMessagesRequest{
@@ -945,7 +1021,7 @@ func cmdDownload(destID, ref, outPath, opid string) {
 			},
 		})
 		if err != nil {
-			return err
+			return fail("ERR_DOWNLOAD", err)
 		}
 
 		var doc *tg.Document
@@ -963,7 +1039,7 @@ func cmdDownload(destID, ref, outPath, opid string) {
 		}
 
 		if doc == nil {
-			return fmt.Errorf("message %d does not contain a document", targetMsgID)
+			return fail("ERR_DOWNLOAD", fmt.Errorf("message %d does not contain a document", targetMsgID))
 		}
 
 		_ = os.MkdirAll(filepath.Dir(outPath), 0755)
@@ -975,7 +1051,7 @@ func cmdDownload(destID, ref, outPath, opid string) {
 		}
 		d := downloader.NewDownloader().WithPartSize(512 * 1024)
 		if _, err := d.Download(api, loc).ToPath(ctx, outPath); err != nil {
-			return fmt.Errorf("download failed: %w", err)
+			return fail("ERR_DOWNLOAD", fmt.Errorf("download failed: %w", err))
 		}
 
 		printJSON(map[string]any{
@@ -986,7 +1062,7 @@ func cmdDownload(destID, ref, outPath, opid string) {
 		return nil
 	})
 	if err != nil {
-		printError("ERR_DOWNLOAD", err.Error())
+		emitRunError(err)
 	}
 }
 
@@ -1010,7 +1086,7 @@ func cmdLogout() {
 	})
 }
 
-func parseUploadArgs(args []string) (dest, dir, opid string) {
+func parseUploadArgs(args []string) (dest, dir, opid, unknown string) {
 	dest = "telegram"
 	for i := 0; i < len(args); i++ {
 		a := args[i]
@@ -1035,6 +1111,10 @@ func parseUploadArgs(args []string) (dest, dir, opid string) {
 			}
 		} else if strings.HasPrefix(a, "--opid=") || strings.HasPrefix(a, "-opid=") {
 			opid = strings.SplitN(a, "=", 2)[1]
+		} else if strings.HasPrefix(a, "-") {
+			if unknown == "" {
+				unknown = a
+			}
 		} else {
 			if dest == "telegram" {
 				dest = a
@@ -1048,7 +1128,7 @@ func parseUploadArgs(args []string) (dest, dir, opid string) {
 	return
 }
 
-func parseDownloadArgs(args []string) (dest, ref, out, opid string) {
+func parseDownloadArgs(args []string) (dest, ref, out, opid, unknown string) {
 	dest = "telegram"
 	for i := 0; i < len(args); i++ {
 		a := args[i]
@@ -1080,6 +1160,10 @@ func parseDownloadArgs(args []string) (dest, ref, out, opid string) {
 			}
 		} else if strings.HasPrefix(a, "--opid=") || strings.HasPrefix(a, "-opid=") {
 			opid = strings.SplitN(a, "=", 2)[1]
+		} else if strings.HasPrefix(a, "-") {
+			if unknown == "" {
+				unknown = a
+			}
 		} else {
 			if dest == "telegram" {
 				dest = a
@@ -1095,7 +1179,7 @@ func parseDownloadArgs(args []string) (dest, ref, out, opid string) {
 	return
 }
 
-func parseListRemoteArgs(args []string) (dest string) {
+func parseListRemoteArgs(args []string) (dest, unknown string) {
 	dest = "telegram"
 	for i := 0; i < len(args); i++ {
 		a := args[i]
@@ -1106,6 +1190,10 @@ func parseListRemoteArgs(args []string) (dest string) {
 			}
 		} else if strings.HasPrefix(a, "--dest=") || strings.HasPrefix(a, "-dest=") {
 			dest = strings.SplitN(a, "=", 2)[1]
+		} else if strings.HasPrefix(a, "-") {
+			if unknown == "" {
+				unknown = a
+			}
 		} else {
 			dest = a
 		}
@@ -1135,11 +1223,11 @@ func cmdDelete(destID string, refs []int) {
 		}
 		peer, err := parseChannelInputPeer(dest, destID, ctx, api)
 		if err != nil {
-			return err
+			return fail("ERR_DELETE", err)
 		}
 		inputChannel, ok := peer.(*tg.InputPeerChannel)
 		if !ok {
-			return errors.New("invalid channel peer")
+			return fail("ERR_DELETE", errors.New("invalid channel peer"))
 		}
 		if _, err := api.ChannelsDeleteMessages(ctx, &tg.ChannelsDeleteMessagesRequest{
 			Channel: &tg.InputChannel{
@@ -1148,7 +1236,7 @@ func cmdDelete(destID string, refs []int) {
 			},
 			ID: refs,
 		}); err != nil {
-			return err
+			return fail("ERR_DELETE", err)
 		}
 		printJSON(map[string]any{
 			"ok":      true,
@@ -1157,11 +1245,11 @@ func cmdDelete(destID string, refs []int) {
 		return nil
 	})
 	if err != nil {
-		printError("ERR_DELETE", err.Error())
+		emitRunError(err)
 	}
 }
 
-func parseDeleteArgs(args []string) (dest string, refs []int) {
+func parseDeleteArgs(args []string) (dest string, refs []int, unknown, badRef string) {
 	dest = "telegram"
 	var refStr string
 	for i := 0; i < len(args); i++ {
@@ -1180,6 +1268,10 @@ func parseDeleteArgs(args []string) (dest string, refs []int) {
 			}
 		} else if strings.HasPrefix(a, "--ref=") || strings.HasPrefix(a, "-ref=") {
 			refStr = strings.SplitN(a, "=", 2)[1]
+		} else if strings.HasPrefix(a, "-") {
+			if unknown == "" {
+				unknown = a
+			}
 		} else {
 			refStr = a
 		}
@@ -1191,6 +1283,8 @@ func parseDeleteArgs(args []string) (dest string, refs []int) {
 		}
 		if id, err := strconv.Atoi(p); err == nil && id > 0 {
 			refs = append(refs, id)
+		} else if badRef == "" {
+			badRef = p
 		}
 	}
 	return
@@ -1207,43 +1301,75 @@ func main() {
 
 	switch verb {
 	case "send-code":
-		fs := flag.NewFlagSet("send-code", flag.ExitOnError)
+		fs := flag.NewFlagSet("send-code", flag.ContinueOnError)
+		fs.SetOutput(io.Discard)
 		phone := fs.String("phone", "", "Phone number")
-		_ = fs.Parse(args)
+		if err := fs.Parse(args); err != nil {
+			printError("ERR_INVALID_ARGS", err.Error())
+			return
+		}
 		cmdSendCode(*phone)
 
 	case "sign-in":
-		fs := flag.NewFlagSet("sign-in", flag.ExitOnError)
+		fs := flag.NewFlagSet("sign-in", flag.ContinueOnError)
+		fs.SetOutput(io.Discard)
 		phone := fs.String("phone", "", "Phone number")
 		code := fs.String("code", "", "Login code")
 		password := fs.String("password", "", "2FA password")
-		_ = fs.Parse(args)
+		if err := fs.Parse(args); err != nil {
+			printError("ERR_INVALID_ARGS", err.Error())
+			return
+		}
 		cmdSignIn(*phone, *code, *password)
 
 	case "check-auth", "status":
 		cmdCheckAuth()
 
 	case "init-storage":
-		fs := flag.NewFlagSet("init-storage", flag.ExitOnError)
+		fs := flag.NewFlagSet("init-storage", flag.ContinueOnError)
+		fs.SetOutput(io.Discard)
 		title := fs.String("title", "", "Channel title")
 		channelID := fs.String("channel-id", "", "Pin a specific channel by its id (overrides discovery)")
-		_ = fs.Parse(args)
+		if err := fs.Parse(args); err != nil {
+			printError("ERR_INVALID_ARGS", err.Error())
+			return
+		}
 		cmdInitStorage(*title, *channelID)
 
 	case "upload":
-		dest, dir, opid := parseUploadArgs(args)
+		dest, dir, opid, bad := parseUploadArgs(args)
+		if bad != "" {
+			printError("ERR_INVALID_ARGS", "unknown flag: "+bad)
+			return
+		}
 		cmdUpload(dest, dir, opid)
 
 	case "list-remote", "list-backups":
-		dest := parseListRemoteArgs(args)
+		dest, bad := parseListRemoteArgs(args)
+		if bad != "" {
+			printError("ERR_INVALID_ARGS", "unknown flag: "+bad)
+			return
+		}
 		cmdListBackups(dest)
 
 	case "download":
-		dest, ref, out, opid := parseDownloadArgs(args)
+		dest, ref, out, opid, bad := parseDownloadArgs(args)
+		if bad != "" {
+			printError("ERR_INVALID_ARGS", "unknown flag: "+bad)
+			return
+		}
 		cmdDownload(dest, ref, out, opid)
 
 	case "delete":
-		dest, refs := parseDeleteArgs(args)
+		dest, refs, bad, badRef := parseDeleteArgs(args)
+		if bad != "" {
+			printError("ERR_INVALID_ARGS", "unknown flag: "+bad)
+			return
+		}
+		if badRef != "" {
+			printError("ERR_INVALID_REF", "invalid message id: "+badRef)
+			return
+		}
 		cmdDelete(dest, refs)
 
 	case "bot-login":

@@ -53,7 +53,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 | `check-auth` (alias `status`) | Повідомити стан автентифікації |
 | `init-storage [--title <title>] [--channel-id <id>]` | Створити або повторно використати приватний канал сховища |
 | `upload --dir <path> [flags]` | Завантажує файли з каталогу частинами |
-| `download [flags]` | Завантажити збережений архів |
+| `download --ref <id> --out <path> [flags]` | Завантажити збережений архів |
 | `delete --ref <id>[,<id>...]` | Видаляє один або кілька збережених елементів |
 | `list-remote` (alias `list-backups`) | Вивести список збережених елементів |
 | `logout` | Видалити локальну сесію |
@@ -92,10 +92,6 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - переглядуваний, автоматично оновлюваний архів справжніх даних `build.prop` для Pixel.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - бот-модератор проти спаму для груп Telegram.
 
-## Ліцензія
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) та учасники. Див. [LICENSE](LICENSE). Запуск зміненої версії як мережевого сервісу зобов'язує вас надати її вихідний код.
-
 ## Контакти
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o mtp
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## Ліцензія
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) та учасники. Див. [LICENSE](LICENSE). Запуск зміненої версії як мережевого сервісу зобов'язує вас надати її вихідний код.
 
 ---
 

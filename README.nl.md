@@ -53,7 +53,7 @@ Elk commando drukt één JSON-object af op stdout (`"ok": true | false`).
 | `check-auth` (alias `status`) | Rapporteer de authenticatiestatus |
 | `init-storage [--title <title>] [--channel-id <id>]` | Maak of hergebruik het privé-opslagkanaal |
 | `upload --dir <path> [flags]` | Uploadt de bestanden in een map in delen |
-| `download [flags]` | Download een opgeslagen archief |
+| `download --ref <id> --out <path> [flags]` | Download een opgeslagen archief |
 | `delete --ref <id>[,<id>...]` | Verwijdert een of meer opgeslagen items |
 | `list-remote` (alias `list-backups`) | Toon een lijst van opgeslagen items |
 | `logout` | Verwijder de lokale sessie |
@@ -92,10 +92,6 @@ De kern van dit hulpmiddel is oorspronkelijk geschreven door **Ash ([@ash-iir](h
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - een doorzoekbaar, automatisch bijgewerkt archief van echte Pixel-`build.prop`-gegevens.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - antispam-moderatiebot voor Telegram-groepen.
 
-## Licentie
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) en bijdragers. Zie [LICENSE](LICENSE). Het draaien van een gewijzigde versie als netwerkdienst verplicht je de broncode ervan aan te bieden.
-
 ## Contact
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ De kern van dit hulpmiddel is oorspronkelijk geschreven door **Ash ([@ash-iir](h
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## Licentie
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) en bijdragers. Zie [LICENSE](LICENSE). Het draaien van een gewijzigde versie als netwerkdienst verplicht je de broncode ervan aan te bieden.
 
 ---
 

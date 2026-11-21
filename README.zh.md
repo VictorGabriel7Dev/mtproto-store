@@ -53,7 +53,7 @@ MTProto 栈（`gotd/td` 加上一个模拟 Telegram Desktop 的 TLS 伪装解析
 | `check-auth`（别名 `status`） | 报告认证状态 |
 | `init-storage [--title <title>] [--channel-id <id>]` | 创建或复用私有存储频道 |
 | `upload --dir <path> [flags]` | 将目录中的文件分块上传 |
-| `download [flags]` | 下载已存储的归档 |
+| `download --ref <id> --out <path> [flags]` | 下载已存储的归档 |
 | `delete --ref <id>[,<id>...]` | 删除一个或多个已存储的项目 |
 | `list-remote`（别名 `list-backups`） | 列出已存储的项目 |
 | `logout` | 丢弃本地会话 |
@@ -92,10 +92,6 @@ MTProto 栈（`gotd/td` 加上一个模拟 Telegram Desktop 的 TLS 伪装解析
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - 一个可浏览、自动更新的真实 Pixel `build.prop` 数据存档。
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - 用于 Telegram 群组的反垃圾信息审核机器人。
 
-## 许可证
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) 及贡献者。参见 [LICENSE](LICENSE)。以网络服务方式运行修改后的版本，会使你有义务提供其源代码。
-
 ## 联系
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ MTProto 栈（`gotd/td` 加上一个模拟 Telegram Desktop 的 TLS 伪装解析
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## 许可证
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) 及贡献者。参见 [LICENSE](LICENSE)。以网络服务方式运行修改后的版本，会使你有义务提供其源代码。
 
 ---
 

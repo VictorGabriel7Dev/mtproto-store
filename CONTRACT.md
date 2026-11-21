@@ -16,7 +16,8 @@
 ### `send-code --phone <number>`
 Begins login; Telegram sends the login code to the account. Writes short-lived staging state.
 - **Success:** `{ "ok": true, "phone": "<normalized>", "phone_code_hash": "<hash>" }`
-- **Errors:** `ERR_INVALID_PHONE`, `ERR_SEND_CODE`, `ERR_CLIENT`
+- **Already logged in:** `{ "ok": true, "phone": "<normalized>", "already_authorized": true }` (the session is already authenticated; no code is sent, and `sign-in` can be skipped)
+- **Errors:** `ERR_INVALID_ARGS`, `ERR_INVALID_PHONE`, `ERR_SEND_CODE`, `ERR_CLIENT`
 
 ### `sign-in --phone <number> --code <code> [--password <2fa>]`
 Completes login with the received code (and 2FA password if the account has one).
@@ -40,28 +41,28 @@ Reports whether a usable, authenticated session exists. **The authentication gat
 Resolves the private storage channel, in this order: (1) `--channel-id` pins a specific channel by its id; (2) the saved destination config is reused if its channel still exists (robust to the channel being **renamed**, which a title scan would miss); (3) a channel whose title ends in the storage tag is reused; (4) otherwise a new channel is created (randomized name, or `--title`). Idempotent and safe to call on every startup.
 - **Success (reused):** `{ "ok": true, "channel": { "id": "-100…", "title": "…" }, "reused": true }`
 - **Success (created):** `{ "ok": true, "channel": { "id": "-100…", "title": "…" }, "created": true }`
-- **Errors:** `ERR_NOT_AUTH`, `ERR_INIT_STORAGE`, `ERR_CLIENT`
+- **Errors:** `ERR_INVALID_ARGS`, `ERR_NOT_AUTH`, `ERR_INIT_STORAGE`, `ERR_CLIENT`
 
 ### `upload --dir <path> [--dest telegram] [--opid <id>]`
 Uploads every file in the directory `<path>` as chunked documents into the storage channel. `--opid`, if given, makes the command write progress to `logs/progress-<opid>.json` (percent/phase), so a host can poll a long transfer.
 If `MTPROTO_STORE_LABEL` is set, its value is stored as `label` in each uploaded item's caption metadata (the `meta` that `list-remote` returns), so a host can attach a human-readable name without putting it in the file name. Unset: no `label` key, exactly as before.
-- **Success:** `{ "ok": true, "uploaded": [ { "name": "<file>", "size": <bytes>, "message_id": <int> }, … ] }`
-- **Errors:** `ERR_NO_FILES`, `ERR_NOT_AUTH`, `ERR_UPLOAD`, `ERR_CLIENT`
+- **Success:** `{ "ok": true, "uploaded": [ { "name": "<file>", "size": <bytes>, "sha256": "<hex>", "message_id": <int> }, … ] }` (empty `[]` if the directory held no regular files)
+- **Errors:** `ERR_INVALID_ARGS`, `ERR_NO_FILES`, `ERR_NOT_AUTH`, `ERR_UPLOAD`, `ERR_CLIENT`
 
 ### `download --ref <message_id> --out <path> [--dest telegram] [--opid <id>]`
 Downloads a stored document (identified by its `message_id`, as returned by `list-remote`/`upload`) to `--out`.
 - **Success:** `{ "ok": true, "file": "<out path>", "size": <bytes> }`
-- **Errors:** `ERR_INVALID_REF`, `ERR_NOT_AUTH`, `ERR_DOWNLOAD`, `ERR_CLIENT`
+- **Errors:** `ERR_INVALID_ARGS`, `ERR_INVALID_REF`, `ERR_NOT_AUTH`, `ERR_DOWNLOAD`, `ERR_CLIENT`
 
 ### `delete --ref <message_id>[,<id>...] [--dest telegram]`
 Deletes one or more stored items by `message_id` (comma-separated for a batch, e.g. `--ref 2,5,7`).
 - **Success:** `{ "ok": true, "deleted": [ <int>, … ] }`
-- **Errors:** `ERR_INVALID_REF`, `ERR_NOT_AUTH`, `ERR_DELETE`, `ERR_CLIENT`
+- **Errors:** `ERR_INVALID_ARGS`, `ERR_INVALID_REF`, `ERR_NOT_AUTH`, `ERR_DELETE`, `ERR_CLIENT`
 
 ### `list-remote` (alias `list-backups`) `[--dest telegram]`
 Lists the documents stored in the channel.
 - **Success:** `{ "ok": true, "backups": [ { "message_id": <int>, "name": "<file>", "size": <bytes>, "date": <unix>, "meta": {…} }, … ] }`
-- **Errors:** `ERR_NOT_AUTH`, `ERR_LIST`, `ERR_CLIENT`
+- **Errors:** `ERR_INVALID_ARGS`, `ERR_NOT_AUTH`, `ERR_LIST`, `ERR_CLIENT`
 
 ### `logout`
 Drops the local session.

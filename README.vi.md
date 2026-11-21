@@ -53,7 +53,7 @@ Mỗi lệnh in ra một đối tượng JSON duy nhất ra stdout (`"ok": true 
 | `check-auth` (alias `status`) | Báo cáo trạng thái xác thực |
 | `init-storage [--title <title>] [--channel-id <id>]` | Tạo hoặc tái sử dụng kênh lưu trữ riêng tư |
 | `upload --dir <path> [flags]` | Tải lên các tệp trong một thư mục theo từng phần |
-| `download [flags]` | Tải xuống một kho lưu trữ đã lưu |
+| `download --ref <id> --out <path> [flags]` | Tải xuống một kho lưu trữ đã lưu |
 | `delete --ref <id>[,<id>...]` | Xóa một hoặc nhiều mục đã lưu |
 | `list-remote` (alias `list-backups`) | Liệt kê các mục đã lưu |
 | `logout` | Hủy phiên cục bộ |
@@ -92,10 +92,6 @@ Phần lõi của công cụ này ban đầu được viết bởi **Ash ([@ash-
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - một kho lưu trữ dữ liệu `build.prop` Pixel thật, có thể duyệt và tự động cập nhật.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - bot kiểm duyệt chống spam cho các nhóm Telegram.
 
-## Giấy phép
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) và những người đóng góp. Xem [LICENSE](LICENSE). Việc chạy một phiên bản đã sửa đổi như một dịch vụ mạng buộc bạn phải cung cấp mã nguồn của nó.
-
 ## Liên hệ
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ Phần lõi của công cụ này ban đầu được viết bởi **Ash ([@ash-
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## Giấy phép
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) và những người đóng góp. Xem [LICENSE](LICENSE). Việc chạy một phiên bản đã sửa đổi như một dịch vụ mạng buộc bạn phải cung cấp mã nguồn của nó.
 
 ---
 

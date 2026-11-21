@@ -53,7 +53,7 @@ Setiap perintah mencetak satu objek JSON ke stdout (`"ok": true | false`).
 | `check-auth` (alias `status`) | Laporkan status autentikasi |
 | `init-storage [--title <title>] [--channel-id <id>]` | Buat atau gunakan kembali kanal penyimpanan privat |
 | `upload --dir <path> [flags]` | Mengunggah berkas dalam direktori sebagai potongan |
-| `download [flags]` | Unduh arsip tersimpan |
+| `download --ref <id> --out <path> [flags]` | Unduh arsip tersimpan |
 | `delete --ref <id>[,<id>...]` | Menghapus satu atau beberapa item tersimpan |
 | `list-remote` (alias `list-backups`) | Tampilkan daftar item tersimpan |
 | `logout` | Lepaskan sesi lokal |
@@ -92,10 +92,6 @@ Inti dari alat ini awalnya ditulis oleh **Ash ([@ash-iir](https://github.com/ash
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - arsip data `build.prop` Pixel asli yang dapat dijelajahi dan diperbarui otomatis.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - bot moderasi antispam untuk grup Telegram.
 
-## Lisensi
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) dan kontributor. Lihat [LICENSE](LICENSE). Menjalankan versi yang dimodifikasi sebagai layanan jaringan mewajibkan Anda menawarkan sumbernya.
-
 ## Kontak
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ Inti dari alat ini awalnya ditulis oleh **Ash ([@ash-iir](https://github.com/ash
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## Lisensi
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) dan kontributor. Lihat [LICENSE](LICENSE). Menjalankan versi yang dimodifikasi sebagai layanan jaringan mewajibkan Anda menawarkan sumbernya.
 
 ---
 

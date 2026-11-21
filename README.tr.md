@@ -53,7 +53,7 @@ Her komut, stdout'a tek bir JSON nesnesi yazar (`"ok": true | false`).
 | `check-auth` (alias `status`) | Kimlik doğrulama durumunu bildir |
 | `init-storage [--title <title>] [--channel-id <id>]` | Özel depolama kanalını oluştur veya yeniden kullan |
 | `upload --dir <path> [flags]` | Bir dizindeki dosyaları parçalar hâlinde yükler |
-| `download [flags]` | Depolanan bir arşivi indir |
+| `download --ref <id> --out <path> [flags]` | Depolanan bir arşivi indir |
 | `delete --ref <id>[,<id>...]` | Bir veya daha fazla depolanan öğeyi siler |
 | `list-remote` (alias `list-backups`) | Depolanan öğeleri listele |
 | `logout` | Yerel oturumu bırak |
@@ -92,10 +92,6 @@ Bu aracın çekirdeği başlangıçta **Ash ([@ash-iir](https://github.com/ash-i
 - [**build.prop**](https://github.com/VictorGabriel7Dev/build.prop) - gerçek Pixel `build.prop` verilerinin göz atılabilir, otomatik güncellenen bir arşivi.
 - [**telegram-antispam-bot**](https://github.com/VictorGabriel7Dev/telegram-antispam-bot) - Telegram grupları için antispam moderasyon botu.
 
-## Lisans
-
-**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) ve katkıda bulunanlar. [LICENSE](LICENSE) dosyasına bakın. Değiştirilmiş bir sürümü ağ hizmeti olarak çalıştırmak, sizi kaynağını sunmaya mecbur eder.
-
 ## İletişim
 
 - https://victorgabriel.dev
@@ -106,6 +102,10 @@ Bu aracın çekirdeği başlangıçta **Ash ([@ash-iir](https://github.com/ash-i
 - **Instagram:** @VictorGabriel_Dev https://www.instagram.com/VictorGabriel_Dev
 - **WhatsApp:** @VictorGabriel_Dev https://wa.me/@VictorGabriel_Dev
 - **E-mail:** contato@victorgabriel.dev
+
+## Lisans
+
+**AGPL-3.0-or-later** - (C) Ash ([@ash-iir](https://github.com/ash-iir)) ve katkıda bulunanlar. [LICENSE](LICENSE) dosyasına bakın. Değiştirilmiş bir sürümü ağ hizmeti olarak çalıştırmak, sizi kaynağını sunmaya mecbur eder.
 
 ---
 
